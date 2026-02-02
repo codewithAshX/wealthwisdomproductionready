@@ -1,14 +1,25 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Calculator, Info, RefreshCcw } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  Calculator, 
+  RefreshCcw, 
+  DollarSign, 
+  Percent, 
+  Target, 
+  ShieldAlert, 
+  ArrowRightLeft,
+  Copy,
+  Check
+} from "lucide-react";
 
 export default function RiskCalculator() {
-  const [accountSize, setAccountSize] = useState<number>(10000);
-  const [riskPercent, setRiskPercent] = useState<number>(1);
-  const [entryPrice, setEntryPrice] = useState<number>(100);
-  const [stopLoss, setStopLoss] = useState<number>(95);
+  const [accountSize, setAccountSize] = useState("10000");
+  const [riskPercent, setRiskPercent] = useState("1");
+  const [entryPrice, setEntryPrice] = useState("100");
+  const [stopLoss, setStopLoss] = useState("95");
+  const [copied, setCopied] = useState(false);
   
   const [result, setResult] = useState({
     amountToRisk: 0,
@@ -16,120 +27,146 @@ export default function RiskCalculator() {
     totalValue: 0,
   });
 
-  const calculateRisk = () => {
-    const amountToRisk = (accountSize * riskPercent) / 100;
-    const riskPerShare = Math.abs(entryPrice - stopLoss);
+  // Smooth Calculation Logic
+  useEffect(() => {
+    const acc = parseFloat(accountSize) || 0;
+    const riskP = parseFloat(riskPercent) || 0;
+    const entry = parseFloat(entryPrice) || 0;
+    const stop = parseFloat(stopLoss) || 0;
+
+    const amountToRisk = (acc * riskP) / 100;
+    const riskPerShare = Math.abs(entry - stop);
     
     if (riskPerShare > 0) {
-      const positionSize = amountToRisk / riskPerShare;
+      const posSize = amountToRisk / riskPerShare;
       setResult({
-        amountToRisk,
-        positionSize: Number(positionSize.toFixed(2)),
-        totalValue: Number((positionSize * entryPrice).toFixed(2)),
+        amountToRisk: Math.round(amountToRisk),
+        positionSize: Number(posSize.toFixed(2)),
+        totalValue: Number((posSize * entry).toFixed(2)),
       });
     }
-  };
-
-  useEffect(() => {
-    calculateRisk();
   }, [accountSize, riskPercent, entryPrice, stopLoss]);
 
+  // Copy Function
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(result.positionSize.toString());
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const inputFields = [
+    { label: "Account Size", val: accountSize, set: setAccountSize, icon: <DollarSign size={18}/>, color: "text-blue-500" },
+    { label: "Risk Amount (%)", val: riskPercent, set: setRiskPercent, icon: <Percent size={18}/>, color: "text-orange-500" },
+    { label: "Entry Price", val: entryPrice, set: setEntryPrice, icon: <Target size={18}/>, color: "text-emerald-500" },
+    { label: "Stop Loss", val: stopLoss, set: setStopLoss, icon: <ShieldAlert size={18}/>, color: "text-red-500" },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#F7FCF9] pt-32 pb-20 px-6 font-sans">
-      <div className="max-w-4xl mx-auto">
+    <section className="min-h-screen bg-[#F7FCF9] py-24 px-6 selection:bg-emerald-100">
+      <div className="max-w-6xl mx-auto">
         
         {/* HEADER */}
-        <div className="mb-12">
+        <div className="text-center mb-16">
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-3 text-emerald-600 mb-4"
+            className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-emerald-100 rounded-full text-emerald-600 mb-4 shadow-sm"
           >
-            <div className="p-2 bg-emerald-100 rounded-lg">
-              <Calculator size={20} />
-            </div>
-            <span className="text-xs font-bold tracking-[0.2em] uppercase">Trading Tools</span>
+            <Calculator size={14} />
+            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700">Institutional Sizing Tool</span>
           </motion.div>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tighter text-slate-900">
-            Risk <span className="text-emerald-600">Calculator.</span>
+          <h1 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter">
+            Smart <span className="text-emerald-600">Sizing.</span>
           </h1>
-          <p className="mt-4 text-slate-500 max-w-xl font-normal leading-relaxed">
-            Protect your capital by calculating the exact position size based on your risk appetite and stop-loss levels.
-          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-12 gap-8 items-stretch">
           
-          {/* INPUTS CARD */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-white rounded-[2rem] border border-emerald-100 p-8 shadow-sm"
-          >
-            <h3 className="text-lg font-bold mb-6 flex items-center gap-2">
-              Parameters <Info size={16} className="text-slate-400" />
-            </h3>
-            
-            <div className="space-y-6">
-              {[
-                { label: "Account Size ($)", val: accountSize, set: setAccountSize },
-                { label: "Risk (%)", val: riskPercent, set: setRiskPercent },
-                { label: "Entry Price", val: entryPrice, set: setEntryPrice },
-                { label: "Stop Loss", val: stopLoss, set: setStopLoss },
-              ].map((input, idx) => (
-                <div key={idx}>
-                  <label className="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wide">
-                    {input.label}
+          {/* INPUT SECTION */}
+          <div className="lg:col-span-7 bg-white p-8 md:p-10 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-8">
+            <div className="grid md:grid-cols-2 gap-8">
+              {inputFields.map((item, i) => (
+                <div key={i} className="space-y-3">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                    {item.label}
                   </label>
-                  <input
-                    type="number"
-                    value={input.val}
-                    onChange={(e) => input.set(Number(e.target.value))}
-                    className="w-full bg-[#F7FCF9] border border-emerald-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-medium"
-                  />
+                  <div className="relative">
+                    <div className={`absolute left-5 top-1/2 -translate-y-1/2 ${item.color}`}>
+                      {item.icon}
+                    </div>
+                    <input
+                      type="number"
+                      value={item.val}
+                      onChange={(e) => item.set(e.target.value)}
+                      className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl py-5 pl-14 pr-6 
+                               text-xl font-black text-slate-900 focus:bg-white focus:border-emerald-500 
+                               outline-none transition-all shadow-inner [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      placeholder="0.00"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          {/* RESULTS CARD */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-emerald-600 rounded-[2rem] p-8 text-white shadow-2xl shadow-emerald-200 flex flex-col justify-between"
-          >
-            <div>
-              <h3 className="text-emerald-200 text-sm font-bold uppercase tracking-widest mb-8">Calculation Result</h3>
-              
-              <div className="space-y-8">
-                <div>
-                  <p className="text-emerald-100/60 text-xs font-bold uppercase mb-1">Position Size</p>
-                  <p className="text-5xl font-extrabold tracking-tighter">{result.positionSize} <span className="text-xl font-normal opacity-60">Units</span></p>
+          {/* RESULTS SECTION */}
+          <div className="lg:col-span-5 bg-slate-900 rounded-[2.5rem] p-10 md:p-12 text-white shadow-2xl flex flex-col justify-between relative overflow-hidden">
+             {/* Abstract background glow */}
+            <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 blur-[80px] rounded-full -mr-20 -mt-20" />
+
+            <div className="relative z-10 space-y-12">
+              <header className="flex justify-between items-center border-b border-white/10 pb-6">
+                <span className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.4em]">Order Details</span>
+                <ArrowRightLeft size={18} className="text-slate-600" />
+              </header>
+
+              <div className="group cursor-pointer" onClick={copyToClipboard}>
+                <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2 flex items-center gap-2">
+                  Quantity to Buy <Copy size={12} className="text-emerald-500 group-hover:scale-110 transition-transform" />
+                </p>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-7xl font-black text-white tracking-tighter">
+                    {result.positionSize}
+                  </span>
+                  <span className="text-emerald-500 font-bold text-sm uppercase italic">Units</span>
                 </div>
+                {/* Copy Feedback */}
+                <AnimatePresence>
+                  {copied && (
+                    <motion.span 
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="text-xs text-emerald-400 font-bold flex items-center gap-1 mt-2"
+                    >
+                      <Check size={12} /> Copied to clipboard
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-emerald-100/60 text-xs font-bold uppercase mb-1">Amount at Risk</p>
-                    <p className="text-xl font-bold">${result.amountToRisk}</p>
-                  </div>
-                  <div>
-                    <p className="text-emerald-100/60 text-xs font-bold uppercase mb-1">Total Trade Value</p>
-                    <p className="text-xl font-bold">${result.totalValue}</p>
-                  </div>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="p-5 bg-white/5 rounded-3xl border border-white/5">
+                  <p className="text-slate-500 text-[9px] font-black uppercase mb-1 tracking-wider">Risk Amount</p>
+                  <p className="text-2xl font-black text-red-400">${result.amountToRisk}</p>
+                </div>
+                <div className="p-5 bg-white/5 rounded-3xl border border-white/5">
+                  <p className="text-slate-500 text-[9px] font-black uppercase mb-1 tracking-wider">Total Value</p>
+                  <p className="text-2xl font-black text-white">${result.totalValue}</p>
                 </div>
               </div>
             </div>
 
             <button 
-              onClick={() => { setAccountSize(10000); setRiskPercent(1); }}
-              className="mt-12 flex items-center justify-center gap-2 w-full py-4 bg-white/10 hover:bg-white/20 rounded-xl border border-white/20 transition-all font-bold text-sm"
+              onClick={() => { setAccountSize("10000"); setRiskPercent("1"); setEntryPrice("100"); setStopLoss("95"); }}
+              className="mt-12 py-5 bg-white/5 hover:bg-white text-white hover:text-slate-900 rounded-[1.5rem] border border-white/10 transition-all duration-500 font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2"
             >
-              <RefreshCcw size={16} /> Reset Calculator
+              <RefreshCcw size={14} /> Refresh Terminal
             </button>
-          </motion.div>
+          </div>
 
         </div>
       </div>
-    </div>
+    </section>
   );
 }
