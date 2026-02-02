@@ -1,171 +1,124 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { Quote, MessageSquare, ArrowRight } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Hiren Patel",
-    role: "Trader",
-    text:
-      "GTF Trading in the Zone classes are life changing. After completing this program, I gained confidence and clarity in the market.",
-    image:
-      "https://images.unsplash.com/photo-1595152772835-219674b2a8a6?q=80&w=800&auto=format&fit=crop",
+    name: "Amit Verma",
+    role: "Full-Time Trader",
+    text: "Before joining, I was randomly taking trades and constantly losing. The structured approach completely changed my mindset. Now I trade with confidence and consistency.",
+    image: "/testimonials/t1.jpg",
   },
   {
-    name: "Aman Verma",
-    role: "Student Trader",
-    text:
-      "I had zero knowledge before joining. The structured learning helped me grow step by step.",
-    image:
-      "https://images.unsplash.com/photo-1618641986557-1ecd230959aa?q=80&w=800&auto=format&fit=crop",
+    name: "Neha Kapoor",
+    role: "Working Professional",
+    text: "I never thought trading could be this systematic. The risk management framework alone saved me from huge losses.",
+    image: "/testimonials/t2.jpg",
   },
   {
-    name: "Rohit Sharma",
-    role: "Beginner Trader",
-    text:
-      "The mentors explain everything with real market examples. That made a huge difference.",
-    image:
-      "https://images.unsplash.com/photo-1603415526960-f7e0328d4c5b?q=80&w=800&auto=format&fit=crop",
+    name: "Rahul Jain",
+    role: "Beginner → Profitable",
+    text: "This mentorship removed years of confusion in just months. The live market sessions are pure gold.",
+    image: "/testimonials/t3.jpg",
   },
   {
-    name: "Neha Gupta",
-    role: "Aspiring Trader",
-    text:
-      "The confidence I gained after this course is priceless. Highly recommended.",
-    image:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    name: "Kunal Shah",
-    role: "Options Learner",
-    text:
-      "Clear concepts, strong risk management, and excellent support from mentors.",
-    image:
-      "https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=800&auto=format&fit=crop",
+    name: "Sneha Mehta",
+    role: "Options Trader",
+    text: "No hype. No shortcuts. Just real education. Easily the best decision of my trading journey.",
+    image: "/testimonials/t4.jpg",
   },
 ];
 
-export default function TestimonialsSplit() {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % testimonials.length);
-    }, 6000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const prev = () =>
-    setIndex((prev) =>
-      prev === 0 ? testimonials.length - 1 : prev - 1
-    );
-
-  const next = () =>
-    setIndex((prev) => (prev + 1) % testimonials.length);
-
-  const t = testimonials[index];
-
+export default function Testimonials() {
   return (
-    <section className="bg-white py-32">
+    <section id="testimonials" className="py-28 md:py-36 bg-[#F7FCF9] text-slate-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
 
-        {/* Top Heading */}
-        <div className="text-center mb-20">
-          <p className="text-sm tracking-widest text-gray-400 uppercase">
-            Testimonial
-          </p>
-          <h2 className="mt-4 text-3xl md:text-4xl font-extrabold text-emerald-500">
-            That&apos;s What They Said
+        {/* HEADER */}
+        <div className="relative z-10 mb-20">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-2 text-emerald-600 mb-4 font-bold tracking-[0.3em] text-[10px] uppercase"
+          >
+            <MessageSquare size={14} />
+            Real Stories
+          </motion.div>
+
+          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter leading-[0.9]">
+            Traders Who <br />
+            <span className="text-emerald-600">Found Their Edge.</span>
           </h2>
-          <div className="mx-auto mt-4 h-1 w-28 bg-emerald-500 rounded-full" />
+
+          <p className="text-slate-500 mt-6 text-lg max-w-xl font-normal leading-relaxed tracking-tight">
+            Real transformations from disciplined traders who moved beyond 
+            guesswork to professional execution.
+          </p>
         </div>
 
-        {/* Content */}
-        <div className="grid md:grid-cols-3 gap-16 items-center">
-
-          {/* LEFT TEXT */}
-          <div>
-            <p className="text-sm tracking-widest text-gray-400 uppercase">
-              Happy Faces
-            </p>
-            <h3 className="mt-3 text-2xl font-bold text-gray-900">
-              Success Stories
-            </h3>
-            <div className="mt-3 h-1 w-20 bg-emerald-500 rounded-full" />
-
-            <p className="mt-6 text-gray-600 leading-relaxed">
-              Welcome to the leading stock market institute. We help
-              traders gain confidence, discipline, and practical
-              market understanding.
-            </p>
-          </div>
-
-          {/* IMAGE */}
-          <div className="flex justify-center">
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={t.image}
-                src={t.image}
-                alt={t.name}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4 }}
-                className="h-[320px] w-[260px] rounded-2xl object-cover shadow-xl"
-              />
-            </AnimatePresence>
-          </div>
-
-          {/* RIGHT TEXT */}
-          <AnimatePresence mode="wait">
+        {/* GRID LAYOUT */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {testimonials.map((t, i) => (
             <motion.div
-              key={t.name}
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.4 }}
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              whileHover={{ y: -8 }}
+              className="group relative bg-white border border-emerald-100 p-8 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-emerald-500/5 transition-all duration-500"
             >
-              <p className="text-gray-600 leading-relaxed">
-                {t.text}
+              <div className="absolute top-6 right-8 text-emerald-100 group-hover:text-emerald-500 transition-colors">
+                <Quote size={40} fill="currentColor" />
+              </div>
+
+              <p className="relative z-10 text-slate-600 leading-relaxed font-normal text-md mb-10 italic">
+                "{t.text}"
               </p>
 
-              <button className="mt-4 text-emerald-500 font-semibold">
-                Read More
-              </button>
-
-              <div className="mt-6">
-                <p className="font-bold text-gray-900">
-                  {t.name}
-                </p>
-                <p className="text-sm text-gray-500">
-                  {t.role}
-                </p>
-                <div className="mt-2 text-yellow-400">
-                  ★★★★★
+              <div className="flex items-center gap-4 border-t border-emerald-50 pt-6">
+                <div className="h-12 w-12 rounded-2xl overflow-hidden bg-emerald-50 border border-emerald-100">
+                  <img src={t.image} alt={t.name} className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900 tracking-tight text-sm">{t.name}</p>
+                  <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">{t.role}</p>
                 </div>
               </div>
             </motion.div>
-          </AnimatePresence>
+          ))}
         </div>
 
-        {/* Arrows */}
-        <div className="mt-16 flex justify-end gap-4">
-          <button
-            onClick={prev}
-            className="rounded-full border border-emerald-500 p-3 text-emerald-500 hover:bg-emerald-500 hover:text-white transition"
-          >
-            <ArrowLeft />
-          </button>
-          <button
-            onClick={next}
-            className="rounded-full border border-emerald-500 p-3 text-emerald-500 hover:bg-emerald-500 hover:text-white transition"
-          >
-            <ArrowRight />
-          </button>
-        </div>
+        {/* FOOTER CTA CARD */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          className="mt-20 relative overflow-hidden rounded-[3rem] bg-emerald-600 p-12 md:p-16 text-white shadow-2xl shadow-emerald-200"
+        >
+          {/* Abstract background shapes */}
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+          
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
+            <div className="max-w-xl text-center md:text-left">
+              <h3 className="text-3xl md:text-5xl font-extrabold tracking-tighter leading-none mb-6">
+                Ready to Transform <br /> Your Trading?
+              </h3>
+              <p className="text-emerald-50 text-lg font-light tracking-tight opacity-80">
+                Join a community of 500+ traders mastering the markets through wisdom and discipline.
+              </p>
+            </div>
+
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              href="https://wa.me/91XXXXXXXX"
+              className="inline-flex items-center gap-3 rounded-full bg-white px-10 py-5 text-emerald-600 font-black text-sm uppercase tracking-widest shadow-xl transition-all"
+            >
+              Join The Community <ArrowRight size={18} />
+            </motion.a>
+          </div>
+        </motion.div>
+
       </div>
     </section>
   );

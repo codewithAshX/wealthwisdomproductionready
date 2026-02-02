@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Quote, MessageSquare, ArrowRight } from "lucide-react";
 
 const testimonials = [
   {
@@ -17,7 +18,7 @@ const testimonials = [
   },
   {
     name: "Rahul Jain",
-    role: "Beginner → Profitable Trader",
+    role: "Beginner → Profitable",
     text: "This mentorship removed years of confusion in just months. The live market sessions are pure gold.",
     image: "/testimonials/t3.jpg",
   },
@@ -31,105 +32,92 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section
-      id="testimonials"
-      className="py-28 md:py-36 bg-[#020617] text-white scroll-mt-32"
-    >
+    <section id="testimonials" className="py-28 md:py-36 bg-[#F7FCF9] text-slate-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* HEADER */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <p className="uppercase tracking-[0.3em] text-emerald-400 text-sm">
-            Student Voices
-          </p>
+        <div className="relative z-10 mb-20">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-2 text-emerald-600 mb-4 font-bold tracking-[0.3em] text-[10px] uppercase"
+          >
+            <MessageSquare size={14} />
+            Real Stories
+          </motion.div>
 
-          <h2 className="mt-6 text-4xl md:text-5xl font-bold">
-            Traders Who Took The Leap.
-            <span className="block bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">
-              And Never Looked Back.
-            </span>
+          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter leading-[0.9]">
+            Traders Who <br />
+            <span className="text-emerald-600">Found Their Edge.</span>
           </h2>
 
-          <p className="text-gray-400 mt-6 text-lg">
-            Real transformations from students who committed to discipline
-            and professional execution.
+          <p className="text-slate-500 mt-6 text-lg max-w-xl font-normal leading-relaxed tracking-tight">
+            Real transformations from disciplined traders who moved beyond 
+            guesswork to professional execution.
           </p>
         </div>
 
-        {/* SCROLLER */}
-        <div className="overflow-x-auto pb-6">
-          <div className="flex gap-8 min-w-max">
+        {/* GRID LAYOUT */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {testimonials.map((t, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              whileHover={{ y: -8 }}
+              className="group relative bg-white border border-emerald-100 p-8 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-emerald-500/5 transition-all duration-500"
+            >
+              <div className="absolute top-6 right-8 text-emerald-100 group-hover:text-emerald-500 transition-colors">
+                <Quote size={40} fill="currentColor" />
+              </div>
 
-            {testimonials.map((t, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ y: -10 }}
-                className="
-                min-w-[380px]
-                rounded-3xl
-                border border-white/10
-                bg-gradient-to-b from-white/5 to-transparent
-                p-8
-                hover:border-emerald-400/40
-                hover:shadow-[0_0_60px_rgba(16,185,129,0.15)]
-                transition-all
-                "
-              >
-                {/* QUOTE */}
-                <p className="text-lg leading-relaxed text-gray-200">
-                  “{t.text}”
-                </p>
+              <p className="relative z-10 text-slate-600 leading-relaxed font-normal text-md mb-10 italic">
+                "{t.text}"
+              </p>
 
-                {/* USER */}
-                <div className="flex items-center gap-4 mt-8">
-                  <img
-                    src={t.image}
-                    alt={t.name}
-                    className="h-14 w-14 rounded-full object-cover"
-                  />
-
-                  <div>
-                    <p className="font-semibold">
-                      {t.name}
-                    </p>
-                    <p className="text-sm text-gray-400">
-                      {t.role}
-                    </p>
-                  </div>
+              <div className="flex items-center gap-4 border-t border-emerald-50 pt-6">
+                <div className="h-12 w-12 rounded-2xl overflow-hidden bg-emerald-50 border border-emerald-100">
+                  <img src={t.image} alt={t.name} className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
                 </div>
-              </motion.div>
-            ))}
+                <div>
+                  <p className="font-bold text-slate-900 tracking-tight text-sm">{t.name}</p>
+                  <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">{t.role}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
+        {/* FOOTER CTA CARD */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          className="mt-20 relative overflow-hidden rounded-[3rem] bg-emerald-600 p-12 md:p-16 text-white shadow-2xl shadow-emerald-200"
+        >
+          {/* Abstract background shapes */}
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+          
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
+            <div className="max-w-xl text-center md:text-left">
+              <h3 className="text-3xl md:text-5xl font-extrabold tracking-tighter leading-none mb-6">
+                Ready to Transform <br /> Your Trading?
+              </h3>
+              <p className="text-emerald-50 text-lg font-light tracking-tight opacity-80">
+                Join a community of 500+ traders mastering the markets through wisdom and discipline.
+              </p>
+            </div>
+
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              href="https://wa.me/91XXXXXXXX"
+              className="inline-flex items-center gap-3 rounded-full bg-white px-10 py-5 text-emerald-600 font-black text-sm uppercase tracking-widest shadow-xl transition-all"
+            >
+              Join The Community <ArrowRight size={18} />
+            </motion.a>
           </div>
-        </div>
-
-        {/* CTA */}
-        <div className="text-center mt-20">
-          <h3 className="text-3xl font-bold">
-            Your Future Self Will Thank You.
-          </h3>
-
-          <p className="text-gray-400 mt-4">
-            The sooner you start — the sooner you compound skill.
-          </p>
-
-          <a
-            href="https://wa.me/91XXXXXXXX"
-            className="
-            inline-block mt-8
-            rounded-full
-            bg-gradient-to-r from-emerald-400 to-green-500
-            px-10 py-4
-            font-bold
-            text-black
-            shadow-xl
-            hover:scale-105
-            transition
-            "
-          >
-            Join The Community →
-          </a>
-        </div>
+        </motion.div>
 
       </div>
     </section>
