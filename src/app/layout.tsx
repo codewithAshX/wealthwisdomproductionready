@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Inter, Montserrat } from "next/font/google"; // High-performance Google Fonts
+import { Inter, Montserrat } from "next/font/google"; 
 import "./globals.css";
-import Navbar from "@/components/Header";
+// FIX: Ensure this matches the EXACT capitalization of your file Header.tsx
+import Navbar from "@/components/Header"; 
 
-// Configure fonts to be preloaded and swapped properly
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-  display: "swap", // Prevents invisible text during load
+  display: "swap", 
 });
 
 const montserrat = Montserrat({
@@ -32,10 +32,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${montserrat.variable} antialiased bg-[#F7FCF9] text-slate-900`}
       >
+        {/* The component is named Navbar here but refers to the Header.tsx file */}
         <Navbar />
-        {children}
-        
-        {/* Footer could go here */}
+        <main>{children}</main>
       </body>
     </html>
   );
