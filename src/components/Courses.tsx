@@ -1,226 +1,171 @@
-// "use client";
-
-// import { motion } from "framer-motion";
-// import { fadeUp, stagger } from "@/lib/animations";
-
-// const courses = [
-//   {
-//     title: "Online Trading Course",
-//     price: "₹999",
-//     points: ["Recorded videos", "Live Q&A", "Beginner friendly"],
-//   },
-//   {
-//     title: "Offline Mentorship",
-//     price: "₹9,999",
-//     points: ["Classroom training", "Live trading", "Personal guidance"],
-//   },
-//   {
-//     title: "Premium Group",
-//     price: "₹2,999",
-//     points: ["Daily calls", "Premium setups", "Community access"],
-//   },
-// ];
-
-// export default function Courses() {
-//   return (
-//     <section id="courses" className="bg-black py-28">
-//       <motion.div
-//         variants={stagger}
-//         initial="hidden"
-//         whileInView="show"
-//         viewport={{ once: true }}
-//         className="max-w-7xl mx-auto px-6"
-//       >
-//         <motion.h2
-//           variants={fadeUp}
-//           className="text-3xl font-bold text-center mb-16"
-//         >
-//           Our Trading Programs
-//         </motion.h2>
-
-//         <div className="grid md:grid-cols-3 gap-10">
-//           {courses.map((course) => (
-//             <motion.div
-//               key={course.title}
-//               variants={fadeUp}
-//               whileHover={{ scale: 1.05 }}
-//               className="rounded-2xl bg-white/5 border border-white/10 p-10 text-center backdrop-blur"
-//             >
-//               <h3 className="text-xl font-semibold">{course.title}</h3>
-//               <p className="text-3xl font-bold mt-4">{course.price}</p>
-
-//               <ul className="mt-6 text-gray-400 space-y-2">
-//                 {course.points.map((p) => (
-//                   <li key={p}>✔ {p}</li>
-//                 ))}
-//               </ul>
-
-//               <a
-//                 href="https://wa.me/91XXXXXXXX"
-//                 className="inline-block mt-8 rounded-full bg-green-500 px-6 py-3 font-semibold text-black"
-//               >
-//                 Enroll Now
-//               </a>
-//             </motion.div>
-//           ))}
-//         </div>
-//       </motion.div>
-//     </section>
-//   );
-// }
 "use client";
 
 import { motion } from "framer-motion";
+import { ArrowRight, Lock, Unlock, BarChart3, Target, Zap, ChevronRight } from "lucide-react";
+
+const courseTiers = [
+  {
+    level: "L-01",
+    title: "The Foundation",
+    price: "₹4,999",
+    tags: ["Market Geometry", "Liquidity", "Structure"],
+    description: "The complete re-education of how price moves. Forget retail patterns; learn to read the footprint of institutional orders.",
+  },
+  {
+    level: "L-02",
+    title: "Intraday Edge",
+    price: "₹8,999",
+    tags: ["Scalping", "M1 Execution", "Volume"],
+    description: "Precision-based entry models for fast-paced markets. Focus on high-frequency setups with defined mechanical exits.",
+  },
+  {
+    level: "L-03",
+    title: "Mastery Desk",
+    price: "₹14,999",
+    tags: ["Portfolio", "Psychology", "Risk"],
+    description: "The terminal stage. Learn to manage six-figure capital with institutional-grade risk parameters and mental resilience.",
+  },
+];
 
 export default function Courses() {
   return (
-    <section
-      id="courses"
-      className="py-28 md:py-36 bg-[#020617] text-white scroll-mt-32"
-    >
-      <div className="max-w-7xl mx-auto px-6">
-        
-        {/* HEADER */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold">
-            Programs Designed For
-            <span className="block bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">
-              Serious Traders
-            </span>
-          </h2>
+    <section id="courses" className="bg-[#0A0A0A] py-24 lg:py-40 relative overflow-hidden text-white">
+      {/* Background Architectural Mark */}
+      <div className="absolute -top-24 -left-24 text-[30rem] font-black text-white/[0.02] select-none pointer-events-none tracking-tighter">
+        PROGRAMS
+      </div>
 
-          <p className="text-gray-400 mt-6 text-lg">
-            Whether you're just starting out or refining your edge —
-            our structured programs guide you toward consistency.
-          </p>
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        
+        {/* HEADER SECTION - Minimalist & Punchy */}
+        <div className="grid lg:grid-cols-12 gap-12 mb-32 items-end">
+          <div className="lg:col-span-8">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-3 mb-6"
+            >
+              <div className="h-[1px] w-12 bg-emerald-500" />
+              <span className="text-emerald-500 font-mono text-[10px] tracking-[0.5em] uppercase">The Curriculum</span>
+            </motion.div>
+            <h2 className="text-7xl md:text-9xl font-bold tracking-tighter leading-[0.8]">
+              Upgrade your <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-800 italic font-serif font-light">
+                Intel.
+              </span>
+            </h2>
+          </div>
+          <div className="lg:col-span-4">
+            <p className="text-slate-500 text-sm font-light leading-relaxed border-l border-emerald-500/30 pl-6">
+              Three distinct tiers of evolution. <br />
+              Each stage builds the psychological and mechanical bridge to professional capital management.
+            </p>
+          </div>
         </div>
 
-        {/* ===== FEATURED MENTORSHIP ===== */}
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="
-          relative
-          rounded-3xl
-          border border-emerald-400/30
-          bg-gradient-to-b from-emerald-500/10 to-transparent
-          p-10 md:p-14
-          mb-14
-          overflow-hidden
-          "
+        {/* ===== THE HORIZONTAL DOSSIER LIST ===== */}
+        <div className="space-y-4">
+          {courseTiers.map((tier, i) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="group relative"
+            >
+              <div className="absolute inset-0 bg-emerald-500 opacity-0 group-hover:opacity-[0.02] transition-opacity duration-500 rounded-3xl" />
+              
+              <div className="relative border-b border-white/10 py-12 px-4 group-hover:px-8 transition-all duration-500 flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-16">
+                
+                {/* Level Indicator */}
+                <div className="flex flex-col">
+                  <span className="text-xs font-mono text-emerald-500 mb-1">{tier.level}</span>
+                  <div className="flex items-center gap-2">
+                    {i === courseTiers.length - 1 ? <Lock size={14} className="text-slate-600" /> : <Unlock size={14} className="text-emerald-500" />}
+                    <h3 className="text-3xl md:text-4xl font-bold tracking-tight">{tier.title}</h3>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <p className="text-slate-400 text-sm max-w-md font-light leading-relaxed">
+                  {tier.description}
+                </p>
+
+                {/* Tags */}
+                <div className="hidden xl:flex gap-3">
+                  {tier.tags.map((tag) => (
+                    <span key={tag} className="px-3 py-1 border border-white/10 rounded-full text-[10px] font-mono text-slate-500 uppercase tracking-widest">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Price & Action */}
+                <div className="ml-auto flex items-center gap-8">
+                  <div className="text-right">
+                    <p className="text-[10px] text-slate-500 uppercase tracking-[0.2em] mb-1 font-mono">Investment</p>
+                    <p className="text-2xl font-bold tracking-tighter">{tier.price}</p>
+                  </div>
+                  <button className="h-14 w-14 rounded-2xl bg-white text-black flex items-center justify-center group-hover:bg-emerald-500 transition-colors duration-300">
+                    <ArrowRight size={20} className="-rotate-45 group-hover:rotate-0 transition-transform duration-500" />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* ===== THE "LIVE DESK" BANNER (Replacement for Flagship Card) ===== */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          className="mt-32 p-8 md:p-1 w-full bg-gradient-to-r from-emerald-500 to-emerald-900 rounded-[2.5rem] overflow-hidden group cursor-pointer"
         >
-          {/* glow */}
-          <div className="absolute inset-0 bg-emerald-500/5 blur-3xl" />
-
-          <div className="relative grid md:grid-cols-2 gap-10 items-center">
-            
-            <div>
-              <span className="text-emerald-400 font-semibold">
-                FLAGSHIP PROGRAM
-              </span>
-
-              <h3 className="text-3xl md:text-4xl font-bold mt-3">
-                Elite Trading Mentorship
-              </h3>
-
-              <p className="text-gray-400 mt-4">
-                A high-impact mentorship designed to transform you into a
-                disciplined, confident, and system-driven trader.
-              </p>
-
-              {/* bullets */}
-              <div className="mt-6 space-y-3 text-gray-300">
-                <p>✔ Live Market Training</p>
-                <p>✔ Institutional-Level Strategies</p>
-                <p>✔ Daily Trade Discussions</p>
-                <p>✔ Risk Management Framework</p>
-                <p>✔ Direct Mentor Access</p>
+          <div className="bg-[#0A0A0A] rounded-[2.4rem] p-12 flex flex-col lg:flex-row items-center justify-between gap-12 group-hover:bg-transparent transition-colors duration-700">
+            <div className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
+              <div className="h-20 w-20 rounded-3xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 group-hover:bg-white transition-colors">
+                <BarChart3 className="text-emerald-500 group-hover:text-black" size={32} />
+              </div>
+              <div>
+                <h4 className="text-3xl font-bold mb-2 tracking-tight">Institutional Mentorship</h4>
+                <p className="text-slate-400 text-sm font-light max-w-xs">
+                  A 6-month journey into high-stakes trading. Fully mechanical. Fully transparent.
+                </p>
               </div>
             </div>
 
-            <div className="flex flex-col items-start md:items-end gap-6">
-              
-              <div>
-                <p className="text-gray-400 line-through text-right">
-                  ₹24,999
-                </p>
-                <p className="text-5xl font-extrabold text-emerald-400">
-                  ₹14,999
-                </p>
+            <div className="flex flex-col items-center lg:items-end gap-4">
+              <div className="flex -space-x-4 mb-2">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="h-10 w-10 rounded-full border-2 border-[#0A0A0A] bg-slate-800" />
+                ))}
+                <div className="h-10 w-10 rounded-full border-2 border-[#0A0A0A] bg-emerald-500 flex items-center justify-center text-[10px] font-bold">
+                  +200
+                </div>
               </div>
-
-              <a
-                href="https://wa.me/91XXXXXXXX"
-                className="
-                rounded-full
-                bg-gradient-to-r from-emerald-400 to-green-500
-                px-10 py-4
-                font-bold
-                text-black
-                shadow-xl
-                hover:scale-105
-                transition
-                "
-              >
-                Apply Now →
-              </a>
-
-              <span className="text-sm text-gray-500">
-                Limited seats. Serious traders only.
-              </span>
+              <div className="flex items-center gap-6">
+                 <span className="text-xs font-mono text-emerald-500 animate-pulse">APPLICATIONS OPEN</span>
+                 <ChevronRight className="group-hover:translate-x-2 transition-transform" />
+              </div>
             </div>
           </div>
         </motion.div>
 
-        {/* ===== SECONDARY COURSES ===== */}
-        <div className="grid md:grid-cols-3 gap-8">
-          
-          {[
-            {
-              title: "Beginner Foundations",
-              desc: "Perfect for new traders who want clarity before risking capital.",
-            },
-            {
-              title: "Options Mastery",
-              desc: "Build advanced strategies with structured risk control.",
-            },
-            {
-              title: "Intraday Edge",
-              desc: "Develop precision entries and high-probability setups.",
-            },
-          ].map((course, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ y: -8 }}
-              transition={{ duration: 0.3 }}
-              className="
-              rounded-2xl
-              border border-white/10
-              bg-gradient-to-b from-white/5 to-transparent
-              p-8
-              hover:border-emerald-400/40
-              hover:shadow-[0_0_60px_rgba(16,185,129,0.15)]
-              transition-all
-              "
-            >
-              <h4 className="text-xl font-semibold">
-                {course.title}
-              </h4>
-
-              <p className="text-gray-400 mt-3">
-                {course.desc}
-              </p>
-
-              <a
-                href="https://wa.me/91XXXXXXXX"
-                className="inline-block mt-6 text-emerald-400 font-semibold hover:underline"
-              >
-                Learn More →
-              </a>
-            </motion.div>
-          ))}
+        {/* Support Link */}
+        <div className="mt-20 flex flex-col md:flex-row items-center justify-between gap-8 border-t border-white/5 pt-12">
+            <div className="flex gap-12">
+              <div className="flex items-center gap-2 text-slate-500">
+                <Target size={14} className="text-emerald-500" />
+                <span className="text-[10px] font-mono uppercase tracking-widest">Mechanical Rules</span>
+              </div>
+              <div className="flex items-center gap-2 text-slate-500">
+                <Zap size={14} className="text-emerald-500" />
+                <span className="text-[10px] font-mono uppercase tracking-widest">Live Updates</span>
+              </div>
+            </div>
+            <p className="text-slate-500 text-sm font-light">
+              Not sure? <a href="#" className="text-white hover:text-emerald-500 transition-colors font-medium">Compare all features →</a>
+            </p>
         </div>
       </div>
     </section>

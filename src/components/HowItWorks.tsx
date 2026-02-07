@@ -1,106 +1,135 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const steps = [
   {
     step: "01",
     title: "Make a Decision",
-    desc: "Commit to your financial goals with a clear, focused roadmap.",
-    gif: "1.gif",
+    desc: "Commit to your financial goals with a clear, focused roadmap. The first step is always the hardest, but we make it the clearest.",
+    gif: "/1.gif",
   },
   {
     step: "02",
     title: "Subscribe",
-    desc: "Choose your path and gain instant access to our elite portal.",
-    gif: "2.gif",
+    desc: "Choose your path and gain instant access to our elite portal. No fluff, just direct entry into institutional grade tools.",
+    gif: "/2.gif",
   },
   {
     step: "03",
     title: "Live Learning",
-    desc: "Master price action through live sessions and mentor interactions.",
-    gif: "3.gif",
+    desc: "Master price action through live sessions and mentor interactions. Real markets, real time, real results.",
+    gif: "/3.gif",
   },
   {
     step: "04",
     title: "Transformation",
-    desc: "Execute with discipline and trade like the top 1% of the market.",
-    gif: "4.gif",
+    desc: "Execute with discipline and trade like the top 1% of the market. Finalize your evolution from retail to pro.",
+    gif: "/4.gif",
   },
 ];
 
 export default function HowItWorks() {
-  return (
-    <section className="bg-[#F7FCF9] py-32 relative overflow-hidden">
-      
-      {/* Background elements */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-200 to-transparent" />
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"],
+  });
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-        
-        {/* Header */}
-        <div className="text-center mb-24">
-          <motion.p 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            className="text-[10px] tracking-[0.4em] text-emerald-600 font-bold uppercase mb-4"
-          >
-            The Path to Mastery
-          </motion.p>
-          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter text-slate-900 leading-none">
-            How It <span className="text-emerald-600">Works.</span>
-          </h2>
-          <p className="mt-6 text-slate-500 font-normal max-w-xl mx-auto">
-            A structured 4-step transition from a retail mindset to professional execution.
+  // Smooth out the scroll progress
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  return (
+    <section ref={containerRef} className="bg-white py-24 lg:py-32 relative overflow-hidden">
+      {/* Dynamic Background */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-50 rounded-full blur-[120px] -z-10 opacity-60" />
+      
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-32 gap-6">
+          <div className="max-w-2xl">
+            <motion.span 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="text-emerald-600 font-mono text-xs tracking-[0.4em] uppercase mb-4 block"
+            >
+              The Evolution
+            </motion.span>
+            <h2 className="text-6xl md:text-8xl font-light tracking-tighter text-slate-900 leading-[0.85]">
+              The <span className="italic font-serif text-emerald-600/80">Process.</span>
+            </h2>
+          </div>
+          <p className="text-slate-400 max-w-[240px] text-xs uppercase tracking-widest leading-relaxed border-l border-emerald-100 pl-6">
+            Four phases of mechanical discipline and mental shift.
           </p>
         </div>
 
-        {/* Steps Container */}
-        <div className="grid md:grid-cols-4 gap-8 relative">
-          
-          {/* Connecting Line (Desktop) */}
-          <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-emerald-100 -z-0" />
+        {/* Steps Path */}
+        <div className="relative">
+          {/* THE DRAWING LINE */}
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[2px] bg-slate-100 -translate-x-1/2">
+            <motion.div 
+              style={{ scaleY, originY: 0 }}
+              className="absolute top-0 left-0 w-full h-full bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)]"
+            />
+          </div>
 
-          {steps.map((item, index) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.15, duration: 0.5 }}
-              viewport={{ once: true }}
-              className="group relative bg-white rounded-[2.5rem] p-10 text-center border border-emerald-50 shadow-sm hover:shadow-xl hover:shadow-emerald-500/5 transition-all duration-500"
-            >
-              {/* Step Number Badge */}
-              <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-emerald-600 text-white w-10 h-10 rounded-2xl flex items-center justify-center font-black text-sm shadow-lg shadow-emerald-200 group-hover:scale-110 transition-transform">
-                {item.step}
-              </div>
+          <div className="space-y-32 md:space-y-48">
+            {steps.map((item, index) => {
+              const isEven = index % 2 === 1;
+              return (
+                <div key={item.step} className={`relative flex flex-col md:flex-row items-center justify-between ${isEven ? 'md:flex-row-reverse' : ''}`}>
+                  
+                  {/* Content Card */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.1 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="w-full md:w-[42%] z-10"
+                  >
+                    <div className="group relative">
+                      <div className="mb-6 flex items-baseline gap-4">
+                        <span className="text-4xl font-serif italic text-emerald-200 group-hover:text-emerald-500 transition-colors duration-500">
+                          {item.step}
+                        </span>
+                        <h3 className="text-3xl font-bold text-slate-900 tracking-tight">{item.title}</h3>
+                      </div>
+                      
+                      <div className="p-8 rounded-[2rem] bg-white border border-slate-100 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] group-hover:shadow-emerald-500/10 transition-all duration-700">
+                        <div className="h-20 w-20 mb-6 rounded-2xl bg-emerald-50/50 flex items-center justify-center p-4">
+                            <img src={item.gif} alt="" className="w-full h-full object-contain mix-blend-multiply" />
+                        </div>
+                        <p className="text-slate-500 leading-relaxed font-light text-base">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
 
-              {/* GIF / Illustration Container */}
-              <div className="relative h-32 w-full mb-8 flex items-center justify-center bg-emerald-50/50 rounded-2xl overflow-hidden">
-                <img
-                  src={item.gif}
-                  alt={item.title}
-                  className="h-24 w-24 object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-110"
-                />
-              </div>
+                  {/* Indicator Dot on the line */}
+                  <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center justify-center z-20">
+                    <motion.div 
+                       initial={{ scale: 0 }}
+                       whileInView={{ scale: 1 }}
+                       viewport={{ once: false, margin: "-50% 0px -50% 0px" }}
+                       className="h-5 w-5 rounded-full bg-white border-[5px] border-emerald-500 shadow-xl" 
+                    />
+                  </div>
 
-              {/* Content */}
-              <h3 className="text-xl font-extrabold tracking-tight text-slate-900">
-                {item.title}
-              </h3>
-
-              <p className="mt-4 text-slate-500 text-sm leading-relaxed font-normal tracking-tight">
-                {item.desc}
-              </p>
-              
-              {/* Decorative "Done" circle for the path */}
-              <div className="hidden md:flex absolute -bottom-10 left-1/2 -translate-x-1/2 h-4 w-4 rounded-full bg-white border-4 border-emerald-100 group-hover:border-emerald-500 transition-colors duration-500" />
-            </motion.div>
-          ))}
+                  {/* Spacer for desktop */}
+                  <div className="hidden md:block w-[42%]" />
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
-
-      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-100 to-transparent" />
     </section>
   );
 }
