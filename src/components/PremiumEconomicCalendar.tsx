@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-new Date(event.date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-
 import { motion } from "framer-motion";
+import { format } from "date-fns";
 
 type Event = {
-  id: string;
+  id: number;
   title: string;
   country: string;
   impact: number;
@@ -27,49 +26,47 @@ export default function PremiumEconomicCalendar() {
   const [loading, setLoading] = useState(true);
   const [highImpactOnly, setHighImpactOnly] = useState(false);
 
- useEffect(() => {
-  async function fetchData() {
-    try {
-      const res = await fetch(
-        "https://financialmodelingprep.com/api/v3/economic_calendar?apikey=demo"
-      );
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch(
+          "https://financialmodelingprep.com/api/v3/economic_calendar?apikey=demo"
+        );
 
-      const json = await res.json();
+        const json = await res.json();
 
-      // 🚨 SAFETY CHECK
-      if (!Array.isArray(json)) {
-        console.error("Invalid API response:", json);
+        if (!Array.isArray(json)) {
+          console.error("Invalid API response:", json);
+          setLoading(false);
+          return;
+        }
+
+        const formatted: Event[] = json.map((e: any, i: number) => ({
+          id: i,
+          title: e.event,
+          country: e.country,
+          impact:
+            e.impact === "High"
+              ? 3
+              : e.impact === "Medium"
+              ? 2
+              : 1,
+          date: e.date,
+          actual: e.actual,
+          forecast: e.estimate,
+          previous: e.previous,
+        }));
+
+        setEvents(formatted);
         setLoading(false);
-        return;
+      } catch (err) {
+        console.error("Calendar fetch failed:", err);
+        setLoading(false);
       }
-
-      const formatted = json.map((e: any, i: number) => ({
-        id: i,
-        title: e.event,
-        country: e.country,
-        impact:
-          e.impact === "High"
-            ? 3
-            : e.impact === "Medium"
-            ? 2
-            : 1,
-        date: e.date,
-        actual: e.actual,
-        forecast: e.estimate,
-        previous: e.previous,
-      }));
-
-      setEvents(formatted);
-      setLoading(false);
-    } catch (err) {
-      console.error("Calendar fetch failed:", err);
-      setLoading(false);
     }
-  }
 
-  fetchData();
-}, []);
-
+    fetchData();
+  }, []);
 
   const filtered = highImpactOnly
     ? events.filter((e) => e.impact === 3)
@@ -79,7 +76,6 @@ export default function PremiumEconomicCalendar() {
     <section className="bg-[#FCFCFC] py-24">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
 
-        {/* HEADER */}
         <div className="flex justify-between items-center mb-12">
           <div>
             <h2 className="text-5xl font-light text-slate-900 tracking-tight">
@@ -102,7 +98,6 @@ export default function PremiumEconomicCalendar() {
           </button>
         </div>
 
-        {/* TABLE */}
         <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-200">
 
           {loading ? (
@@ -119,22 +114,18 @@ export default function PremiumEconomicCalendar() {
                   animate={{ opacity: 1, y: 0 }}
                   className="grid grid-cols-6 gap-4 p-6 items-center hover:bg-slate-50 transition"
                 >
-                  {/* TIME */}
                   <div className="text-sm text-slate-600 font-medium">
                     {format(new Date(event.date), "HH:mm")}
                   </div>
 
-                  {/* COUNTRY */}
                   <div className="font-bold text-slate-900">
                     {event.country}
                   </div>
 
-                  {/* TITLE */}
                   <div className="col-span-2 text-slate-800 font-medium">
                     {event.title}
                   </div>
 
-                  {/* IMPACT */}
                   <div>
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-bold ${
@@ -149,7 +140,6 @@ export default function PremiumEconomicCalendar() {
                     </span>
                   </div>
 
-                  {/* VALUES */}
                   <div className="text-xs text-slate-500">
                     <div>Act: {event.actual || "-"}</div>
                     <div>Fc: {event.forecast || "-"}</div>
