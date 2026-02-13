@@ -98,7 +98,7 @@ export default function Contact() {
               <div className="space-y-10">
                 {[
                   { label: "Voice", val: "+91 98765 43210", icon: <Phone size={16} /> },
-                  { label: "Digital", val: "desk@wealthwisdom.com", icon: <Mail size={16} /> },
+                  { label: "Digital", val: "www.wealthwisdom.com", icon: <Mail size={16} /> },
                   { label: "Studio", val: "Chandrapur, Maharashtra", icon: <MapPin size={16} /> }
                 ].map((item) => (
                   <div key={item.label} className="group cursor-pointer">

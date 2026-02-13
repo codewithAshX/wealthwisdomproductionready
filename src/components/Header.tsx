@@ -7,11 +7,32 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-
 import { ChevronDown, Calculator, LineChart, Calendar, Zap, Menu, X, ArrowRight } from "lucide-react";
 
 const toolItems = [
-  { label: "Risk Calculator", icon: <Calculator size={16} />, href: "/tools/risk-calculator", desc: "Size positions like a pro" },
-  { label: "Profit Simulator", icon: <LineChart size={16} />, href: "/tools/profit-simulator", desc: "Project your compound growth" },
-  { label: "Economic Calendar", icon: <Calendar size={16} />, href: "/tools/calendar", desc: "High-impact news alerts" },
-  { label: "Quick Analysis", icon: <Zap size={16} />, href: "/tools/analysis", desc: "AI market sentiment" },
+  { 
+    label: "Risk Calculator", 
+    icon: <Calculator size={16} />, 
+    href: "/tools/risk-calculator", 
+    desc: "Size positions like a pro" 
+  },
+  { 
+    label: "Profit Simulator", 
+    icon: <LineChart size={16} />, 
+    href: "/tools/profit-simulator", 
+    desc: "Project your compound growth" 
+  },
+  { 
+    label: "Economic Calendar", 
+    icon: <Calendar size={16} />, 
+    href: "/tools/economic-calendar",   // ✅ FIXED PATH
+    desc: "High-impact news alerts" 
+  },
+  { 
+    label: "Quick Analysis", 
+    icon: <Zap size={16} />, 
+    href: "/tools/analysis", 
+    desc: "AI market sentiment" 
+  },
 ];
+
 
 const sections = [
   { id: "hero", label: "Home", type: "scroll" },
