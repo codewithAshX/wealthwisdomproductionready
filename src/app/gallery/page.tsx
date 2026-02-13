@@ -2,18 +2,16 @@ import { getGalleryMedia } from "@/lib/getGalleryMedia";
 import AppleGallery from "@/components/AppleGallery";
 import GalleryHero from "@/components/GalleryHero";
 
-export default function Page() {
-  const media = getGalleryMedia();
+export default async function Page() {
+  const media = await getGalleryMedia();
 
   return (
     <div className="bg-white">
-
-      <GalleryHero />
+      {/* <GalleryHero /> */}
 
       <section className="px-6 pb-24">
         <AppleGallery media={media} />
       </section>
-
     </div>
   );
 }

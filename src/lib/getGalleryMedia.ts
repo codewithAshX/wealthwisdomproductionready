@@ -2,18 +2,13 @@ import fs from "fs";
 import path from "path";
 
 export function getGalleryMedia() {
-  const dir = path.join(process.cwd(), "public/gallery");
+  const galleryPath = path.join(process.cwd(), "public/gallery");
 
-  const files = fs.readdirSync(dir);
+  const files = fs.readdirSync(galleryPath);
 
-  return files.map((file) => {
-    const ext = file.split(".").pop()?.toLowerCase();
-
-    const videoExt = ["mp4", "webm", "ogg"];
-
-    return {
-      type: videoExt.includes(ext!) ? "video" : "image",
-      src: `/gallery/${file}`,
-    };
-  });
+  return files.map((file) => ({
+    src: `/gallery/${file}`,
+    type: file.endsWith(".mp4") ? "video" : "image",
+    category: "ambience", // or however you're mapping it
+  }));
 }

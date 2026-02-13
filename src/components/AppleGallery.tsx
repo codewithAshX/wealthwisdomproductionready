@@ -3,73 +3,140 @@
 import { useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { Play, X, Zap, Users, Monitor } from "lucide-react";
 
-export default function AppleGallery({ media }: any) {
-  const categories = ["all", ...new Set(media.map((m: any) => m.category))];
-  const [active, setActive] = useState("all");
+export default function AppleGallery({ media = [] }: any) {
   const [video, setVideo] = useState<string | null>(null);
+  const [brokenAssets, setBrokenAssets] = useState<string[]>([]);
 
-  const filtered =
-    active === "all" ? media : media.filter((m: any) => m.category === active);
+  // 🛡️ Auto-Prune Logic: Removes any src that fails to load
+  const handleMediaError = (src: string) => {
+    setBrokenAssets((prev) => [...prev, src]);
+  };
+
+  // 🧹 Filter media to remove broken assets and organize categories
+  const validMedia = (media || []).filter((m: any) => m && !brokenAssets.includes(m.src));
+
+  const sections = [
+    {
+      id: "ambience",
+      title: "Wealth Intelligence",
+      sub: "Atmosphere",
+      icon: Zap,
+      items: validMedia.filter((m: any) => m.category === "ambience")
+    },
+    {
+      id: "mentorship",
+      title: "Directorial Desk",
+      sub: "Mentorship",
+      icon: Users,
+      items: validMedia.filter((m: any) => m.category === "mentorship")
+    },
+    {
+      id: "infrastructure",
+      title: "Tactical Systems",
+      sub: "Hardware",
+      icon: Monitor,
+      items: validMedia.filter((m: any) => m.category === "infrastructure")
+    }
+  ];
 
   return (
-    <div className="max-w-7xl mx-auto">
-      {/* CATEGORY FILTER */}
-      <div className="flex gap-3 flex-wrap mb-12 justify-center">
-        {categories.map((cat: string) => (
-          <button
-            key={cat}
-            onClick={() => setActive(cat)}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition
-            ${
-              active === cat
-                ? "bg-green-500 text-white shadow-lg"
-                : "bg-green-100 text-gray-700 hover:bg-green-500 hover:text-white"
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
-      {/* GALLERY GRID */}
+    <div className="max-w-7xl mx-auto space-y-32">
       <PhotoProvider>
-        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6">
-          {filtered.map((item: any) => (
-            <motion.div
-              key={item.src}
-              className="break-inside-avoid group relative"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              {item.type === "image" ? (
-                <PhotoView src={item.src}>
-                  <img
-                    src={item.src}
-                    loading="lazy"
-                    className="rounded-2xl cursor-pointer transition duration-500 group-hover:scale-[1.05]"
-                  />
-                </PhotoView>
-              ) : (
-                <div onClick={() => setVideo(item.src)}>
-                  <video src={item.src} className="rounded-2xl" muted />
+        {sections.map((section, sIdx) => (
+          <div key={section.id} className="relative">
+            
+            {/* ✍️ Section Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-emerald-700/60 font-mono text-[10px] tracking-widest uppercase">
+                  <section.icon size={14} />
+                  <span>Section // 0{sIdx + 1}</span>
                 </div>
-              )}
-            </motion.div>
-          ))}
-        </div>
+                <h3 className="text-5xl md:text-7xl font-extralight tracking-tighter text-slate-900">
+                  {section.title}<span className="text-emerald-500">.</span>
+                </h3>
+              </div>
+              <p className="max-w-xs text-slate-500 text-sm leading-relaxed italic border-r-2 border-emerald-100 pr-6 text-right">
+                Creative spatial design for high-performance capital management.
+              </p>
+            </div>
+
+            {/* 🧩 Creative Bento Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[200px]">
+              {section.items.map((item: any, iIdx: number) => {
+                // Logic for sizing images (Bento Style)
+                const isLarge = iIdx === 0 || iIdx === 3;
+                return (
+                  <motion.div
+                    key={item.src}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className={`relative overflow-hidden rounded-[2rem] bg-white shadow-sm border border-emerald-50/50 group 
+                      ${isLarge ? "md:col-span-8 md:row-span-2" : "md:col-span-4 md:row-span-1"}`}
+                  >
+                    {item.type === "image" ? (
+                      <PhotoView src={item.src}>
+                        <img
+                          src={item.src}
+                          onError={() => handleMediaError(item.src)} // 🛡️ Error Handler
+                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 group-hover:rotate-1"
+                          alt="Institutional Asset"
+                        />
+                      </PhotoView>
+                    ) : (
+                      <div className="w-full h-full cursor-pointer" onClick={() => setVideo(item.src)}>
+                        <video
+                          src={item.src}
+                          onError={() => handleMediaError(item.src)} // 🛡️ Error Handler
+                          className="w-full h-full object-cover"
+                          muted loop playsInline
+                          onMouseOver={(e) => e.currentTarget.play()}
+                          onMouseOut={(e) => e.currentTarget.pause()}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-emerald-900/10">
+                           <Play className="text-white fill-white" size={32} />
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* ✨ Hover Label */}
+                    <div className="absolute bottom-6 left-6 translate-y-10 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                      <div className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-full border border-emerald-100">
+                        <span className="text-[10px] font-bold text-emerald-900 uppercase tracking-tighter">View Detail +</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </PhotoProvider>
 
-      {/* VIDEO MODAL */}
-      {video && (
-        <div
-          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-          onClick={() => setVideo(null)}
-        >
-          <video src={video} controls autoPlay className="max-h-[80vh]" />
-        </div>
-      )}
+      {/* 🎬 Video Modal */}
+      <AnimatePresence>
+        {video && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-[#CDE1D6]/90 backdrop-blur-xl z-[100] flex items-center justify-center p-6"
+            onClick={() => setVideo(null)}
+          >
+            <div className="absolute top-10 right-10 cursor-pointer text-emerald-900/50 hover:text-emerald-900 transition-colors">
+              <X size={40} strokeWidth={1} />
+            </div>
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+              className="max-w-6xl w-full aspect-video rounded-[3rem] overflow-hidden shadow-2xl bg-black"
+            >
+              <video src={video} controls autoPlay className="w-full h-full" />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
