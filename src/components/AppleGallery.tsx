@@ -5,6 +5,7 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, X, Zap, Users, Monitor } from "lucide-react";
+import Image from "next/image";
 
 export default function AppleGallery({ media = [] }: any) {
   const [video, setVideo] = useState<string | null>(null);
@@ -80,12 +81,17 @@ export default function AppleGallery({ media = [] }: any) {
                   >
                     {item.type === "image" ? (
                       <PhotoView src={item.src}>
-                        <img
-                          src={item.src}
-                          onError={() => handleMediaError(item.src)} // 🛡️ Error Handler
-                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 group-hover:rotate-1"
-                          alt="Institutional Asset"
-                        />
+                        <div className="w-full h-full relative">
+                          <Image
+                            src={item.src}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className="object-cover transition-transform duration-1000 group-hover:scale-110 group-hover:rotate-1"
+                            alt="Institutional Asset"
+                            onError={() => handleMediaError(item.src)}
+                            priority={iIdx < 4} // Prioritize first 4 images
+                          />
+                        </div>
                       </PhotoView>
                     ) : (
                       <div className="w-full h-full cursor-pointer" onClick={() => setVideo(item.src)}>

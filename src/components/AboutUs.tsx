@@ -85,34 +85,25 @@ export default function ArchitectAbout() {
             style={{ scale: videoScale, opacity }}
             className="relative group"
           >
-            {/* Video Player */}
+            {/* Image Display (Optimized for Vercel) */}
             <div className="relative aspect-video w-full rounded-2xl lg:rounded-[3rem] overflow-hidden bg-slate-200 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)]">
-              <video
-                ref={videoRef}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover scale-105"
-              >
-                <source src="/hero.mp4" type="video/mp4" />
-              </video>
+              <Image
+                src="/HERO.PNG"
+                fill
+                className="object-cover scale-105"
+                alt="Institutional Legacy"
+                priority
+              />
 
-              {/* Glass Video Controls */}
+              {/* Glass Overlay */}
               <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center z-20">
                 <div className="flex gap-2 p-1.5 bg-black/20 backdrop-blur-xl rounded-full border border-white/10">
-                  <button 
-                    onClick={togglePlay}
-                    className="h-10 w-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 transition-transform"
-                  >
-                    {isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" className="ml-0.5" />}
-                  </button>
-                  <button 
-                    onClick={() => setIsMuted(!isMuted)}
-                    className="h-10 w-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-all"
-                  >
-                    {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-                  </button>
+                  <div className="h-10 w-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                    <Play size={16} fill="currentColor" className="ml-0.5" />
+                  </div>
+                  <div className="h-10 w-10 rounded-full bg-white/10 text-white flex items-center justify-center">
+                    <Volume2 size={16} />
+                  </div>
                 </div>
 
                 <div className="hidden sm:flex items-center gap-3 px-4 py-2 bg-black/20 backdrop-blur-xl rounded-full border border-white/10">
@@ -120,7 +111,7 @@ export default function ArchitectAbout() {
                     {[1, 2, 3].map((i) => <span key={i} className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />)}
                   </div>
                   <span className="text-[9px] font-mono text-white/70 uppercase tracking-widest">
-                    Live Stream: 4K Institutional // 60FPS
+                    Premium Content // Optimized
                   </span>
                 </div>
               </div>
