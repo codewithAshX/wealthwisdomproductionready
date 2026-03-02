@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { useRef } from "react";
 
 const steps = [
@@ -37,7 +37,6 @@ export default function HowItWorks() {
     offset: ["start center", "end center"],
   });
 
-  // Smooth out the scroll progress
   const scaleY = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
@@ -46,7 +45,6 @@ export default function HowItWorks() {
 
   return (
     <section ref={containerRef} className="bg-white py-24 lg:py-32 relative overflow-hidden">
-      {/* Dynamic Background */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-50 rounded-full blur-[120px] -z-10 opacity-60" />
       
       <div className="max-w-6xl mx-auto px-6">
@@ -91,21 +89,51 @@ export default function HowItWorks() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.1 }}
                     viewport={{ once: true, margin: "-100px" }}
-                    className="w-full md:w-[42%] z-10"
+                    className="w-full md:w-[45%] z-10"
                   >
                     <div className="group relative">
                       <div className="mb-6 flex items-baseline gap-4">
-                        <span className="text-4xl font-serif italic text-emerald-200 group-hover:text-emerald-500 transition-colors duration-500">
+                        <span className="text-4xl md:text-5xl font-serif italic text-emerald-200 group-hover:text-emerald-500 transition-colors duration-500">
                           {item.step}
                         </span>
-                        <h3 className="text-3xl font-bold text-slate-900 tracking-tight">{item.title}</h3>
+                        <h3 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">{item.title}</h3>
                       </div>
                       
-                      <div className="p-8 rounded-[2rem] bg-white border border-slate-100 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] group-hover:shadow-emerald-500/10 transition-all duration-700">
-                        <div className="h-20 w-20 mb-6 rounded-2xl bg-emerald-50/50 flex items-center justify-center p-4">
-                            <img src={item.gif} alt="" className="w-full h-full object-contain mix-blend-multiply" />
-                        </div>
-                        <p className="text-slate-500 leading-relaxed font-light text-base">
+                      <div className="p-8 md:p-10 rounded-[2.5rem] bg-white border border-slate-100 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] group-hover:shadow-emerald-500/10 transition-all duration-700">
+                        
+                        {/* UPDATED GIF CONTAINER: Scaled for Desktop visibility */}
+                       <div className="
+  mb-10 
+  rounded-[2rem] 
+  bg-emerald-50/40 
+  flex items-center justify-center 
+  overflow-hidden
+
+  /* MOBILE SIZE */
+  h-[160px] w-[160px]
+
+  /* TABLET */
+  sm:h-[200px] sm:w-[200px]
+
+  /* LAPTOP */
+  md:h-[260px] md:w-[260px]
+
+  /* DESKTOP */
+  lg:h-[320px] lg:w-[320px]
+
+  /* LARGE SCREENS */
+  xl:h-[380px] xl:w-[380px]
+">
+  <motion.img 
+    whileHover={{ scale: 1.08 }}
+    transition={{ type: "spring", stiffness: 180, damping: 15 }}
+    src={item.gif} 
+    alt={item.title} 
+    className="w-full h-full object-contain"
+  />
+</div>
+
+                        <p className="text-slate-500 leading-relaxed font-light text-base md:text-lg">
                           {item.desc}
                         </p>
                       </div>
@@ -118,12 +146,12 @@ export default function HowItWorks() {
                        initial={{ scale: 0 }}
                        whileInView={{ scale: 1 }}
                        viewport={{ once: false, margin: "-50% 0px -50% 0px" }}
-                       className="h-5 w-5 rounded-full bg-white border-[5px] border-emerald-500 shadow-xl" 
+                       className="h-6 w-6 rounded-full bg-white border-[6px] border-emerald-500 shadow-xl" 
                     />
                   </div>
 
                   {/* Spacer for desktop */}
-                  <div className="hidden md:block w-[42%]" />
+                  <div className="hidden md:block w-[45%]" />
                 </div>
               );
             })}

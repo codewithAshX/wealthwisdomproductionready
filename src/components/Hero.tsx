@@ -25,19 +25,50 @@ export default function HeroMint() {
       <div className="w-full max-w-6xl mx-auto text-center mt-20">
         
         {/* BADGE: Moved below nav flow to prevent overlap */}
-        <motion.div
-          variants={fadeInUp}
-          initial="hidden"
-          animate="visible"
-          custom={0}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-sm font-medium mb-10 shadow-sm"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          Next Enrollment: March 1st
-        </motion.div>
+{/* Container for both badges */}
+{/* Container for both badges */}
+{/* Centered Container for both badges */}
+<div className="flex flex-wrap justify-center items-center gap-4 w-full mb-10">
+
+  {/* Dawn Cohort (Morning) */}
+  <motion.div
+    variants={fadeInUp}
+    initial="hidden"
+    animate="visible"
+    custom={0}
+    className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-100 text-amber-800 text-sm font-medium shadow-sm"
+  >
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      viewBox="0 0 24 24" 
+      fill="currentColor" 
+      className="w-4 h-4 text-amber-600"
+    >
+      <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 011.06 0l1.591 1.591a.75.75 0 11-1.06 1.06l-1.591-1.591a.75.75 0 010-1.06zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 011.06 1.06l-1.591 1.591a.75.75 0 11-1.06-1.06l1.591-1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 20.243a.75.75 0 010-1.06l1.591-1.591a.75.75 0 111.06 1.06l-1.591 1.591a.75.75 0 01-1.06 0zM3 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H3.75A.75.75 0 013 12zM5.106 5.106a.75.75 0 011.06 0l1.591 1.591a.75.75 0 01-1.06 1.06L5.106 6.166a.75.75 0 010-1.06z" />
+    </svg>
+    Dawn Cohort: 8:00 AM
+  </motion.div>
+
+  {/* Dusk Cohort (Evening) */}
+  <motion.div
+    variants={fadeInUp}
+    initial="hidden"
+    animate="visible"
+    custom={1}
+    className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-800 text-sm font-medium shadow-sm"
+  >
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      viewBox="0 0 24 24" 
+      fill="currentColor" 
+      className="w-4 h-4 text-indigo-600"
+    >
+      <path fillRule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clipRule="evenodd" />
+    </svg>
+    Dusk Cohort: 6:00 PM
+  </motion.div>
+  
+</div>
 
         {/* HEADLINE: Fluid typography and tighter line height */}
         <motion.h1

@@ -14,9 +14,9 @@ const toolItems = [
     desc: "Size positions like a pro" 
   },
   { 
-    label: "Profit Simulator", 
+    label: "Position Size Calculator", 
     icon: <LineChart size={16} />, 
-    href: "/tools/profit-simulator", 
+    href: "/tools/position-size-calculator", 
     desc: "Project your compound growth" 
   },
   { 
@@ -25,12 +25,12 @@ const toolItems = [
     href: "/tools/economic-calendar",   // ✅ FIXED PATH
     desc: "High-impact news alerts" 
   },
-  { 
-    label: "Quick Analysis", 
-    icon: <Zap size={16} />, 
-    href: "/tools/analysis", 
-    desc: "AI market sentiment" 
-  },
+  // { 
+  //   label: "Quick Analysis", 
+  //   icon: <Zap size={16} />, 
+  //   href: "/tools/analysis", 
+  //   desc: "AI market sentiment" 
+  // },
 ];
 
 

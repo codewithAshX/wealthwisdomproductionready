@@ -1,172 +1,242 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Calculator, 
-  RefreshCcw, 
-  DollarSign, 
-  Percent, 
-  Target, 
-  ShieldAlert, 
-  ArrowRightLeft,
+import {
+  Calculator,
+  ChevronDown,
+  Info,
   Copy,
-  Check
+  Check,
+  TrendingUp,
+  Coins
 } from "lucide-react";
 
-export default function RiskCalculator() {
-  const [accountSize, setAccountSize] = useState("10000");
-  const [riskPercent, setRiskPercent] = useState("1");
-  const [entryPrice, setEntryPrice] = useState("100");
-  const [stopLoss, setStopLoss] = useState("95");
-  const [copied, setCopied] = useState(false);
-  
-  const [result, setResult] = useState({
-    amountToRisk: 0,
+export default function ForexRiskCalculator() {
+  // Inputs
+  const [accountCurrency, setAccountCurrency] = useState("USD");
+  const [accountBalance, setAccountBalance] = useState("");
+  const [riskPercent, setRiskPercent] = useState("");
+  const [stopLossPips, setStopLossPips] = useState("");
+  const [currencyPair, setCurrencyPair] = useState("EUR/USD");
+
+  // State for calculated results
+  const [results, setResults] = useState({
+    amountAtRisk: 0,
     positionSize: 0,
-    totalValue: 0,
+    standardLots: 0,
+    miniLots: 0,
+    microLots: 0,
   });
 
-  // Smooth Calculation Logic
-  useEffect(() => {
-    const acc = parseFloat(accountSize) || 0;
+  const [isCalculated, setIsCalculated] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const calculateRisk = () => {
+    const balance = parseFloat(accountBalance) || 0;
     const riskP = parseFloat(riskPercent) || 0;
-    const entry = parseFloat(entryPrice) || 0;
-    const stop = parseFloat(stopLoss) || 0;
+    const pips = parseFloat(stopLossPips) || 0;
 
-    const amountToRisk = (acc * riskP) / 100;
-    const riskPerShare = Math.abs(entry - stop);
-    
-    if (riskPerShare > 0) {
-      const posSize = amountToRisk / riskPerShare;
-      setResult({
-        amountToRisk: Math.round(amountToRisk),
-        positionSize: Number(posSize.toFixed(2)),
-        totalValue: Number((posSize * entry).toFixed(2)),
+    if (balance > 0 && riskP > 0 && pips > 0) {
+      const amountAtRisk = (balance * riskP) / 100;
+      
+      // Basic Forex calculation logic
+      // Position Size = (Amount at Risk) / (Stop Loss in Pips * Pip Value)
+      // For simplicity in this UI, we assume a standard $10/pip for 1 Standard Lot (USD base)
+      const pipValueStandard = 10; 
+      const unitsPerStandardLot = 100000;
+      
+      // Units calculation
+      const totalUnits = (amountAtRisk / (pips * (pipValueStandard / unitsPerStandardLot)));
+      
+      setResults({
+        amountAtRisk: Number(amountAtRisk.toFixed(2)),
+        positionSize: Math.floor(totalUnits),
+        standardLots: Number((totalUnits / 100000).toFixed(2)),
+        miniLots: Number((totalUnits / 10000).toFixed(2)),
+        microLots: Number((totalUnits / 1000).toFixed(2)),
       });
+      setIsCalculated(true);
     }
-  }, [accountSize, riskPercent, entryPrice, stopLoss]);
+  };
 
-  // Copy Function
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(result.positionSize.toString());
+  const copyToClipboard = (val: string) => {
+    navigator.clipboard.writeText(val);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const inputFields = [
-    { label: "Account Size", val: accountSize, set: setAccountSize, icon: <DollarSign size={18}/>, color: "text-blue-500" },
-    { label: "Risk Amount (%)", val: riskPercent, set: setRiskPercent, icon: <Percent size={18}/>, color: "text-orange-500" },
-    { label: "Entry Price", val: entryPrice, set: setEntryPrice, icon: <Target size={18}/>, color: "text-emerald-500" },
-    { label: "Stop Loss", val: stopLoss, set: setStopLoss, icon: <ShieldAlert size={18}/>, color: "text-red-500" },
-  ];
-
   return (
-    <section className="min-h-screen bg-[#F7FCF9] py-24 px-6 selection:bg-emerald-100">
-      <div className="max-w-6xl mx-auto">
+    <section className="pt-32 pb-24 px-6 bg-[#FCFCFC] min-h-screen">
+      <div className="max-w-5xl mx-auto">
         
         {/* HEADER */}
-        <div className="text-center mb-16">
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-emerald-100 rounded-full text-emerald-600 mb-4 shadow-sm"
-          >
-            <Calculator size={14} />
-            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700">Institutional Sizing Tool</span>
-          </motion.div>
-          <h1 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter">
-            Smart <span className="text-emerald-600">Sizing.</span>
-          </h1>
+        <div className="mb-12">
+          <h2 className="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
+            <div className="p-2 bg-emerald-500 rounded-xl text-white">
+              <Calculator size={24} />
+            </div>
+            Position Size Calculator
+          </h2>
+          <p className="text-slate-500 mt-2 text-sm">Calculate precise lot sizes based on your risk parameters.</p>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-8 items-stretch">
+        <div className="grid lg:grid-cols-2 gap-12 bg-white p-8 md:p-12 rounded-[3rem] border border-slate-100 shadow-xl shadow-slate-200/50">
           
-          {/* INPUT SECTION */}
-          <div className="lg:col-span-7 bg-white p-8 md:p-10 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-8">
-            <div className="grid md:grid-cols-2 gap-8">
-              {inputFields.map((item, i) => (
-                <div key={i} className="space-y-3">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                    {item.label}
-                  </label>
-                  <div className="relative">
-                    <div className={`absolute left-5 top-1/2 -translate-y-1/2 ${item.color}`}>
-                      {item.icon}
-                    </div>
-                    <input
-                      type="number"
-                      value={item.val}
-                      onChange={(e) => item.set(e.target.value)}
-                      className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl py-5 pl-14 pr-6 
-                               text-xl font-black text-slate-900 focus:bg-white focus:border-emerald-500 
-                               outline-none transition-all shadow-inner [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                      placeholder="0.00"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* LEFT COLUMN: INPUTS (Matches Image) */}
+          <div className="space-y-6">
+            <InputSelect 
+              label="Account Currency" 
+              value={accountCurrency} 
+              onChange={setAccountCurrency}
+              options={["USD", "EUR", "GBP", "JPY"]}
+            />
 
-          {/* RESULTS SECTION */}
-          <div className="lg:col-span-5 bg-slate-900 rounded-[2.5rem] p-10 md:p-12 text-white shadow-2xl flex flex-col justify-between relative overflow-hidden">
-             {/* Abstract background glow */}
-            <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 blur-[80px] rounded-full -mr-20 -mt-20" />
+            <InputNumber 
+              label="Account Balance" 
+              value={accountBalance} 
+              onChange={setAccountBalance}
+              placeholder="e.g. 10000"
+            />
 
-            <div className="relative z-10 space-y-12">
-              <header className="flex justify-between items-center border-b border-white/10 pb-6">
-                <span className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.4em]">Order Details</span>
-                <ArrowRightLeft size={18} className="text-slate-600" />
-              </header>
+            <InputNumber 
+              label="Risk Percentage" 
+              value={riskPercent} 
+              onChange={setRiskPercent}
+              placeholder="e.g. 1"
+              suffix="%"
+            />
 
-              <div className="group cursor-pointer" onClick={copyToClipboard}>
-                <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2 flex items-center gap-2">
-                  Quantity to Buy <Copy size={12} className="text-emerald-500 group-hover:scale-110 transition-transform" />
-                </p>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-7xl font-black text-white tracking-tighter">
-                    {result.positionSize}
-                  </span>
-                  <span className="text-emerald-500 font-bold text-sm uppercase italic">Units</span>
-                </div>
-                {/* Copy Feedback */}
-                <AnimatePresence>
-                  {copied && (
-                    <motion.span 
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="text-xs text-emerald-400 font-bold flex items-center gap-1 mt-2"
-                    >
-                      <Check size={12} /> Copied to clipboard
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </div>
+            <InputNumber 
+              label="Stop Loss (pips)" 
+              value={stopLossPips} 
+              onChange={setStopLossPips}
+              placeholder="e.g. 20"
+            />
 
-              <div className="grid grid-cols-2 gap-6">
-                <div className="p-5 bg-white/5 rounded-3xl border border-white/5">
-                  <p className="text-slate-500 text-[9px] font-black uppercase mb-1 tracking-wider">Risk Amount</p>
-                  <p className="text-2xl font-black text-red-400">${result.amountToRisk}</p>
-                </div>
-                <div className="p-5 bg-white/5 rounded-3xl border border-white/5">
-                  <p className="text-slate-500 text-[9px] font-black uppercase mb-1 tracking-wider">Total Value</p>
-                  <p className="text-2xl font-black text-white">${result.totalValue}</p>
-                </div>
-              </div>
-            </div>
+            <InputSelect 
+              label="Currency Pair" 
+              value={currencyPair} 
+              onChange={setCurrencyPair}
+              options={["EUR/USD", "GBP/USD", "USD/JPY", "XAU/USD"]}
+            />
 
             <button 
-              onClick={() => { setAccountSize("10000"); setRiskPercent("1"); setEntryPrice("100"); setStopLoss("95"); }}
-              className="mt-12 py-5 bg-white/5 hover:bg-white text-white hover:text-slate-900 rounded-[1.5rem] border border-white/10 transition-all duration-500 font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2"
+              onClick={calculateRisk}
+              className="w-full py-5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl font-bold text-lg transition-all shadow-lg shadow-emerald-500/20 active:scale-[0.98]"
             >
-              <RefreshCcw size={14} /> Refresh Terminal
+              Calculate
             </button>
           </div>
 
+          {/* RIGHT COLUMN: RESULTS (Matches Image) */}
+          <div className="bg-slate-50/50 rounded-[2.5rem] p-8 md:p-10 border border-slate-100">
+            <div className="flex items-center justify-between mb-10 border-b border-slate-200 pb-6">
+              <h3 className="text-3xl font-bold text-slate-800">Results</h3>
+              <div className="bg-slate-900 text-white p-1.5 rounded-full">
+                <ChevronDown size={16} />
+              </div>
+            </div>
+
+            <div className="space-y-8">
+              <ResultRow label="Amount at Risk" value={`$${results.amountAtRisk}`} isBold />
+              <ResultRow label="Position Size (units)" value={results.positionSize.toLocaleString()} />
+              <ResultRow 
+                label="Standard Lots" 
+                value={results.standardLots.toString()} 
+                canCopy 
+                onCopy={() => copyToClipboard(results.standardLots.toString())}
+              />
+              <ResultRow label="Mini Lots" value={results.miniLots.toString()} />
+              <ResultRow label="Micro Lots" value={results.microLots.toString()} />
+            </div>
+
+            {isCalculated && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-10 p-4 bg-emerald-50 rounded-2xl border border-emerald-100 flex items-center gap-3"
+              >
+                <Info size={16} className="text-emerald-600" />
+                <p className="text-[11px] font-bold text-emerald-800 uppercase tracking-tight">
+                  Calculated based on {currencyPair} market price.
+                </p>
+              </motion.div>
+            )}
+          </div>
         </div>
       </div>
+
+      {/* Copy Toast */}
+      <AnimatePresence>
+        {copied && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 z-50"
+          >
+            <Check size={16} className="text-emerald-400" />
+            <span className="text-sm font-bold">Lot size copied!</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
+  );
+}
+
+/* UI COMPONENTS */
+
+function InputNumber({ label, value, onChange, placeholder, suffix }: any) {
+  return (
+    <div className="space-y-2">
+      <label className="text-sm font-bold text-slate-700 ml-1">{label}</label>
+      <div className="relative">
+        <input 
+          type="number" 
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className="w-full bg-slate-100 border-none rounded-2xl py-4 px-6 text-slate-900 font-semibold focus:ring-2 focus:ring-emerald-500 transition-all outline-none"
+        />
+        {suffix && <span className="absolute right-6 top-1/2 -translate-y-1/2 font-bold text-slate-400">{suffix}</span>}
+      </div>
+    </div>
+  );
+}
+
+function InputSelect({ label, value, onChange, options }: any) {
+  return (
+    <div className="space-y-2">
+      <label className="text-sm font-bold text-slate-700 ml-1">{label}</label>
+      <div className="relative">
+        <select 
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full bg-slate-800 text-white border-none rounded-2xl py-4 px-6 font-bold appearance-none cursor-pointer outline-none focus:ring-2 focus:ring-emerald-500"
+        >
+          {options.map((opt: string) => <option key={opt} value={opt}>{opt}</option>)}
+        </select>
+        <ChevronDown size={18} className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+      </div>
+    </div>
+  );
+}
+
+function ResultRow({ label, value, isBold = false, canCopy = false, onCopy }: any) {
+  return (
+    <div className="flex flex-col border-b border-slate-200 pb-3 group">
+      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{label}</span>
+      <div className="flex justify-between items-center">
+        <span className={`text-2xl ${isBold ? 'font-black text-slate-900' : 'font-bold text-slate-700'}`}>
+          {value}
+        </span>
+        {canCopy && (
+          <button onClick={onCopy} className="text-slate-300 hover:text-emerald-500 transition-colors">
+            <Copy size={18} />
+          </button>
+        )}
+      </div>
+    </div>
   );
 }
