@@ -1,172 +1,226 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
-import { Target, Eye, Quote, ArrowUpRight, CheckCircle2 } from "lucide-react";
+import {
+  Target,
+  Eye,
+  Shield,
+  Building2,
+  Users,
+  Ruler,
+  Star,
+} from "lucide-react";
 
-export default function About() {
-  const fadeInUp = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6 }
-  };
+/* ANIMATIONS */
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
 
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.15 } },
+};
+
+export default function AboutPage() {
   return (
-    <div className="bg-[#F7FCF9] text-[#1a1a1a] selection:bg-emerald-100 selection:text-emerald-900">
-      
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative pt-40 pb-24 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-[radial-gradient(circle_at_center,_rgba(16,185,129,0.05)_0%,_transparent_70%)]" />
-        
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-          <motion.span 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-block mb-6 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1 text-[11px] font-bold tracking-[0.4em] text-emerald-700 uppercase"
-          >
-            Our Legacy
-          </motion.span>
+    <div className="bg-[#050507] text-white overflow-hidden relative">
 
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-5xl md:text-7xl font-extrabold mb-8 tracking-tighter leading-[0.9] text-slate-900"
-          >
-            The Discipline of <br />
-            <span className="text-emerald-600">Wealth Creation.</span>
+      {/* BACKGROUND GLOW */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-amber-500/5 blur-[140px]" />
+
+      {/* 🎬 HERO */}
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+
+        {/* IMAGE + VIDEO LAYER */}
+        <motion.img
+          initial={{ scale: 1.2 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 2 }}
+          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
+        >
+          <source src="https://cdn.coverr.co/videos/coverr-aerial-view-of-modern-city-1576/1080p.mp4" />
+        </video>
+
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/95" />
+
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={stagger}
+          className="relative z-10 text-center px-6 max-w-3xl"
+        >
+          <motion.h1 variants={fadeUp} className="text-5xl md:text-7xl font-light mb-6">
+            Building <span className="text-amber-400">Trust</span>
           </motion.h1>
 
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="max-w-2xl mx-auto text-lg md:text-xl leading-relaxed text-slate-500 font-normal tracking-tight"
+          <motion.p variants={fadeUp} className="text-white/70 text-lg">
+            Premium developments crafted for modern living and long-term value.
+          </motion.p>
+        </motion.div>
+      </section>
+
+      {/* 🧾 ABOUT */}
+      <section className="py-28 px-6 bg-[#f7f7f7] text-black">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            variants={fadeUp}
+            className="bg-[#0b0b0c] text-white rounded-3xl p-10 md:p-14 border border-amber-400/40 shadow-2xl"
           >
-            <p>
-              Wealth Wisdom Trading Academy is a sanctuary for serious traders. 
-              We transform market volatility into <span className="text-emerald-700 font-semibold">structured opportunity</span> through elite mentorship.
+            <h2 className="text-3xl md:text-4xl mb-6 text-amber-400 font-light">
+              Who We Are
+            </h2>
+
+            <p className="text-white/80 leading-relaxed text-lg">
+              At <span className="text-amber-400 font-semibold">Venula Developers</span>, we create premium real estate opportunities built on trust,
+              transparency, and long-term value. Every project is carefully designed
+              to deliver both lifestyle and investment growth.
+
+              <br /><br />
+
+              From residential layouts to high-growth developments, we ensure legal clarity,
+              quality execution, and customer-first service in every step.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* ================= BENTO GRID ================= */}
-      <section className="py-20 relative">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-12 gap-8">
-            
-            <motion.div 
-              {...fadeInUp}
-              className="md:col-span-7 group relative overflow-hidden rounded-[2.5rem] border border-emerald-100 bg-white p-10 shadow-sm transition-shadow hover:shadow-md"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 mb-6">
-                <Target size={24} />
-              </div>
-              <h2 className="text-3xl font-bold mb-4 tracking-tight text-slate-900">Our Mission</h2>
-              <p className="text-slate-500 text-lg leading-relaxed max-w-md font-normal">
-                To simplify the complexities of price action through immersive, 
-                rule-based systems that prioritize capital protection over speculation.
-              </p>
-            </motion.div>
+      {/* 📊 ACHIEVEMENTS */}
+      <section className="relative py-28 px-6 bg-[#050507]">
 
-            <motion.div 
-              {...fadeInUp}
-              className="md:col-span-5 relative h-[350px] md:h-auto rounded-[2.5rem] overflow-hidden border border-emerald-100 shadow-xl"
-            >
-              <Image
-                src="/classroom.png"
-                alt="Academy"
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-700"
-              />
-            </motion.div>
+        <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-amber-500/10 blur-[120px]" />
 
-            <motion.div 
-              {...fadeInUp}
-              className="md:col-span-12 group relative overflow-hidden rounded-[2.5rem] bg-emerald-600 p-12 text-white shadow-2xl shadow-emerald-200"
-            >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-                <div className="max-w-2xl">
-                  <h2 className="text-3xl font-bold mb-6 flex items-center gap-3 tracking-tight">
-                    <Eye size={32} /> Our Vision
-                  </h2>
-                  <p className="text-emerald-50 text-xl font-medium leading-relaxed tracking-tight">
-                    To build a community of 100,000+ disciplined traders who master 
-                    the markets using data-driven psychology rather than luck.
+        <div className="max-w-6xl mx-auto text-center">
+
+          <h2 className="text-4xl md:text-5xl font-light mb-6">
+            Our <span className="text-amber-400">Achievements</span>
+          </h2>
+
+          <p className="text-white/60 mb-16 max-w-2xl mx-auto">
+            Delivering consistent value through premium developments and trusted relationships.
+          </p>
+
+          <div className="grid md:grid-cols-4 gap-8">
+
+            {[
+              { value: "30+", label: "Projects", icon: <Building2 /> },
+              { value: "1000+", label: "Families", icon: <Users /> },
+              { value: "25", label: "Acres", icon: <Ruler /> },
+              { value: "100%", label: "Satisfaction", icon: <Star /> },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ y: -8, scale: 1.03 }}
+                className="group rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/30 to-transparent"
+              >
+                <div className="bg-[#0b0b0c] rounded-2xl p-8 border border-white/10">
+                  <div className="text-amber-400 mb-4 flex justify-center">
+                    {item.icon}
+                  </div>
+
+                  <h3 className="text-3xl font-semibold text-amber-400">
+                    {item.value}
+                  </h3>
+
+                  <p className="text-white/50 text-sm mt-2">
+                    {item.label}
                   </p>
                 </div>
-                <div className="hidden md:block">
-                   <div className="h-24 w-24 rounded-full border border-white/20 flex items-center justify-center animate-pulse">
-                      <CheckCircle2 size={40} />
-                   </div>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ================= QUOTE STRIP ================= */}
-      <section className="py-24 bg-[#EBF5EF]">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <Quote size={48} className="mx-auto mb-8 text-emerald-600 opacity-40" />
-          <h2 className="text-3xl md:text-5xl font-extrabold leading-tight tracking-tighter text-slate-800">
-            "Trading is not a game of <span className="text-emerald-600 italic font-serif">prediction</span>, <br className="hidden md:block"/> 
-            it is a game of <span className="underline decoration-emerald-400 underline-offset-8">probability</span>."
+      {/* 👨‍💼 FOUNDERS */}
+      <section className="py-28 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-light text-center mb-16">
+            Leadership That Builds <span className="text-amber-400">Trust</span>
           </h2>
-        </div>
-      </section>
 
-      {/* ================= FOUNDER SECTION ================= */}
-      <section className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            
-            <motion.div 
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              className="relative"
-            >
-              <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl">
-                 <Image
-                    src="/classroom.png" 
-                    alt="Palash Bandiwar"
-                    fill
-                    className="object-cover"
-                  />
-              </div>
-              <div className="absolute -bottom-6 -right-6 bg-emerald-600 text-white p-8 rounded-2xl shadow-xl">
-                <p className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-80 mb-1">Founder & Head Mentor</p>
-                <p className="text-2xl font-extrabold tracking-tight">Palash Bandiwar</p>
-              </div>
-            </motion.div>
+          <div className="grid md:grid-cols-2 gap-12">
 
-            <motion.div 
-               initial={{ opacity: 0, x: 50 }}
-               whileInView={{ opacity: 1, x: 0 }}
-            >
-              <span className="text-emerald-600 font-bold text-xs tracking-[0.3em] mb-4 block uppercase">The Architect</span>
-              <h2 className="text-5xl font-extrabold mb-8 text-slate-900 tracking-tighter leading-none">Empowering the <br/><span className="text-emerald-600">Retail Trader.</span></h2>
-              
-              <div className="space-y-6 text-slate-500 text-lg font-normal leading-relaxed tracking-tight">
-                <p>
-                  With over a decade of market mastery, Palash Bandiwar founded Wealth Wisdom 
-                  to bridge the gap between textbook theory and the high-stakes reality of live trading.
-                </p>
-                <p className="border-l-4 border-emerald-500 pl-6 italic text-slate-800 font-medium bg-emerald-50/50 py-5 rounded-r-xl">
-                  "I don't teach you how to follow trends. I teach you how to read the 
-                  intent behind the price."
-                </p>
-                <button className="flex items-center gap-2 text-emerald-700 font-bold group mt-8 hover:text-emerald-500 transition-colors tracking-tight">
-                  Read Palash's Story <ArrowUpRight className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </button>
-              </div>
-            </motion.div>
+            {[
+              {
+                name: "CH Reena Kumar",
+                role: "Founder & Chairman",
+                img: "https://images.unsplash.com/photo-1560250097-0b93528c311a",
+              },
+              {
+                name: "Ranjith Shekar",
+                role: "Co-Founder & COO",
+                img: "https://images.unsplash.com/photo-1607746882042-944635dfe10e",
+              },
+            ].map((p, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ y: -12, scale: 1.02 }}
+                className="group relative rounded-3xl overflow-hidden shadow-xl"
+              >
+                <img
+                  src={`${p.img}?auto=format&fit=crop&w=800&q=80`}
+                  className="w-full h-[420px] object-cover grayscale group-hover:grayscale-0 transition duration-500"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-8 flex flex-col justify-end">
+                  <h3 className="text-2xl text-amber-400">{p.name}</h3>
+                  <p className="text-white/60 text-sm">{p.role}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* 🎯 MISSION / VISION */}
+      <section className="py-28 px-6 bg-[#0f0f12]">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+
+          {[
+            { title: "Mission", icon: <Target />, text: "Deliver quality real estate with transparency." },
+            { title: "Vision", icon: <Eye />, text: "Build future-ready communities." },
+            { title: "Values", icon: <Shield />, text: "Integrity, Quality, Customer First." },
+          ].map((item, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ y: -8 }}
+              className="bg-white/[0.04] border border-white/10 p-10 rounded-3xl text-center"
+            >
+              <div className="text-amber-400 mb-4 flex justify-center">
+                {item.icon}
+              </div>
+
+              <h3 className="text-xl mb-3">{item.title}</h3>
+              <p className="text-white/60 text-sm">{item.text}</p>
+            </motion.div>
+          ))}
+
+        </div>
+      </section>
+
+      {/* 🚀 CTA */}
+      <section className="py-32 text-center">
+        <h2 className="text-4xl mb-6">
+          Let’s Build Your <span className="text-amber-400">Future</span>
+        </h2>
+
+        <button className="px-10 py-4 bg-amber-500 text-black rounded-full font-semibold hover:bg-amber-400 transition">
+          Contact Us
+        </button>
+      </section>
+
     </div>
   );
 }

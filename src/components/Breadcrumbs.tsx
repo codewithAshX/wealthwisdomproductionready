@@ -8,10 +8,10 @@ export default function Breadcrumbs() {
   const segments = pathname.split("/").filter(Boolean);
 
   return (
-    <nav className="mb-8 text-sm text-gray-600">
+    <nav className="mb-8 text-sm text-slate-300">
       <ol className="flex flex-wrap items-center gap-2">
         <li>
-          <Link href="/" className="hover:text-emerald-600">
+          <Link href="/" className="hover:text-yellow-400">
             Home
           </Link>
         </li>
@@ -25,11 +25,11 @@ export default function Breadcrumbs() {
             <li key={href} className="flex items-center gap-2">
               <span>/</span>
               {index === segments.length - 1 ? (
-                <span className="font-medium text-gray-900">
+                <span className="font-medium text-white">
                   {label}
                 </span>
               ) : (
-                <Link href={href} className="hover:text-emerald-600">
+                <Link href={href} className="hover:text-yellow-400">
                   {label}
                 </Link>
               )}

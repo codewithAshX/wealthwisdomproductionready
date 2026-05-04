@@ -1,26 +1,21 @@
-"use client";
-
-import Navbar from "@/components/Header";
+import dynamic from "next/dynamic";
 import Hero from "@/components/Hero";
-import Courses from "@/components/Courses";
-import FAQ from "@/components/FAQ";
-import Footer from "@/components/Footer";
 import Countdown from "@/components/Countdown";
-import AboutUs from "@/components/AboutUs";
-import CoursesShowcase from "@/components/CoursesShowcase";
-import HowItWorks from "@/components/HowItWorks";
-import WhoIsThisFor from "@/components/WhoIsThisFor";
-import StatsSuperhero from "@/components/StatsSuperhero";
-import TestimonialsSplit from "@/components/TestimonialsSplit";
-// import Navbar from "@/components/Header";
-// import Footer from "@/components/Footer";
-import ContactCTA from "@/components/ContactCTA";
+
+// Defer heavier sections to the client to improve initial server render and hydration.
+const AboutUs = dynamic(() => import("@/components/AboutUs"));
+const CoursesShowcase = dynamic(() => import("@/components/CoursesShowcase"));
+const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
+const WhoIsThisFor = dynamic(() => import("@/components/WhoIsThisFor"));
+// const StatsSuperhero = dynamic(() => import("@/components/StatsSuperhero"));
+const TestimonialsSplit = dynamic(() => import("@/components/TestimonialsSplit"));
+const FAQ = dynamic(() => import("@/components/FAQ"));
+// const ContactCTA = dynamic(() => import("@/components/ContactCTA"));
+const Footer = dynamic(() => import("@/components/Footer"));
 
 export default function Home() {
   return (
     <>
-      <Navbar />
-
       {/* HERO */}
       <Hero />
 
@@ -40,7 +35,7 @@ export default function Home() {
       <WhoIsThisFor />
 
       {/* SOCIAL PROOF */}
-      <StatsSuperhero />
+      {/* <StatsSuperhero /> */}
 
       {/* TESTIMONIALS */}
       <TestimonialsSplit />
@@ -49,7 +44,7 @@ export default function Home() {
       <FAQ />
 
       {/* CONTACT CTA */}
-      <ContactCTA />
+      {/* <ContactCTA /> */}
 
       {/* FOOTER */}
       <Footer />

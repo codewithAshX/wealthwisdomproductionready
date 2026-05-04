@@ -3,15 +3,14 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Calculator,
   ChevronDown,
   Copy,
   Check,
   Info,
-  DollarSign
+  Clock,
 } from "lucide-react";
 
-export default function ForexPositionCalculator() {
+export default function BuildCostEstimator() {
   // --- Input States ---
   const [accountCurrency, setAccountCurrency] = useState("USD");
   const [balance, setBalance] = useState("");
@@ -30,26 +29,21 @@ export default function ForexPositionCalculator() {
 
   const [copied, setCopied] = useState(false);
 
-  const calculatePosition = () => {
+  const calculateEstimate = () => {
     const bal = parseFloat(balance) || 0;
     const risk = parseFloat(riskPercent) || 0;
-    const pips = parseFloat(stopLoss) || 0;
+    const stop = parseFloat(stopLoss) || 0;
 
-    if (bal > 0 && risk > 0 && pips > 0) {
-      const moneyAtRisk = (bal * risk) / 100;
-      
-      // Standard Forex Unit Logic (1 Lot = 100k Units)
-      // Standard Pip Value for USD-based pairs is $10 per 1 Lot
-      const pipValuePerUnit = 0.0001; 
-      const units = moneyAtRisk / (pips * 0.0001 * 100000 / 100000 * 10); // Simplified for UI
-      const totalUnits = (moneyAtRisk / pips) * 10000;
+    if (bal > 0 && risk > 0 && stop > 0) {
+      const amountAtRisk = (bal * risk) / 100;
+      const positionSize = amountAtRisk / stop; // Simplified to match a typical position sizing formula
 
       setResults({
-        amountAtRisk: Number(moneyAtRisk.toFixed(2)),
-        positionSize: Math.floor(totalUnits),
-        standardLots: Number((totalUnits / 100000).toFixed(2)),
-        miniLots: Number((totalUnits / 10000).toFixed(2)),
-        microLots: Number((totalUnits / 1000).toFixed(2)),
+        amountAtRisk: Number(amountAtRisk.toFixed(2)),
+        positionSize: Number(positionSize.toFixed(2)),
+        standardLots: Number((positionSize / 100000).toFixed(4)),
+        miniLots: Number((positionSize / 10000).toFixed(4)),
+        microLots: Number((positionSize / 1000).toFixed(4)),
       });
     }
   };
@@ -116,10 +110,10 @@ export default function ForexPositionCalculator() {
             </div>
 
             <button 
-              onClick={calculatePosition}
-              className="w-full py-5 bg-[#22C55E] hover:bg-[#1DA850] text-white rounded-full font-bold text-xl transition-all shadow-lg shadow-emerald-500/20 active:scale-[0.98] mt-4"
+              onClick={calculateEstimate}
+              className="w-full py-5 bg-yellow-400 hover:bg-yellow-300 text-black rounded-full font-bold text-xl transition-all shadow-lg shadow-black/25 active:scale-[0.98] mt-4"
             >
-              Calculate
+              Estimate Cost
             </button>
           </div>
 

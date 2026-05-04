@@ -67,21 +67,21 @@ export default function ForexRiskCalculator() {
   };
 
   return (
-    <section className="pt-32 pb-24 px-6 bg-[#FCFCFC] min-h-screen">
+    <section className="pt-32 pb-24 px-6 bg-black text-white min-h-screen">
       <div className="max-w-5xl mx-auto">
         
         {/* HEADER */}
         <div className="mb-12">
-          <h2 className="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-            <div className="p-2 bg-emerald-500 rounded-xl text-white">
+          <h2 className="text-4xl font-bold text-white tracking-tight flex items-center gap-3">
+            <div className="p-2 bg-yellow-400 rounded-xl text-black">
               <Calculator size={24} />
             </div>
-            Position Size Calculator
+            Build Cost Estimator
           </h2>
-          <p className="text-slate-500 mt-2 text-sm">Calculate precise lot sizes based on your risk parameters.</p>
+          <p className="text-slate-300 mt-2 text-sm">Estimate key metrics for your next construction project.</p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 bg-white p-8 md:p-12 rounded-[3rem] border border-slate-100 shadow-xl shadow-slate-200/50">
+        <div className="grid lg:grid-cols-2 gap-12 bg-slate-950/70 p-8 md:p-12 rounded-[3rem] border border-slate-800 shadow-xl shadow-black/40">
           
           {/* LEFT COLUMN: INPUTS (Matches Image) */}
           <div className="space-y-6">
@@ -123,16 +123,16 @@ export default function ForexRiskCalculator() {
 
             <button 
               onClick={calculateRisk}
-              className="w-full py-5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl font-bold text-lg transition-all shadow-lg shadow-emerald-500/20 active:scale-[0.98]"
+              className="w-full py-5 bg-yellow-400 hover:bg-yellow-300 text-black rounded-2xl font-bold text-lg transition-all shadow-lg shadow-black/40 active:scale-[0.98]"
             >
               Calculate
             </button>
           </div>
 
           {/* RIGHT COLUMN: RESULTS (Matches Image) */}
-          <div className="bg-slate-50/50 rounded-[2.5rem] p-8 md:p-10 border border-slate-100">
-            <div className="flex items-center justify-between mb-10 border-b border-slate-200 pb-6">
-              <h3 className="text-3xl font-bold text-slate-800">Results</h3>
+          <div className="bg-slate-950/40 rounded-[2.5rem] p-8 md:p-10 border border-slate-800">
+            <div className="flex items-center justify-between mb-10 border-b border-slate-800 pb-6">
+              <h3 className="text-3xl font-bold text-white">Results</h3>
               <div className="bg-slate-900 text-white p-1.5 rounded-full">
                 <ChevronDown size={16} />
               </div>
@@ -155,10 +155,10 @@ export default function ForexRiskCalculator() {
               <motion.div 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mt-10 p-4 bg-emerald-50 rounded-2xl border border-emerald-100 flex items-center gap-3"
+                className="mt-10 p-4 bg-slate-900/60 rounded-2xl border border-slate-800 flex items-center gap-3"
               >
-                <Info size={16} className="text-emerald-600" />
-                <p className="text-[11px] font-bold text-emerald-800 uppercase tracking-tight">
+                <Info size={16} className="text-yellow-400" />
+                <p className="text-[11px] font-bold text-slate-200 uppercase tracking-tight">
                   Calculated based on {currencyPair} market price.
                 </p>
               </motion.div>
@@ -176,8 +176,8 @@ export default function ForexRiskCalculator() {
             exit={{ opacity: 0, y: 20 }}
             className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 z-50"
           >
-            <Check size={16} className="text-emerald-400" />
-            <span className="text-sm font-bold">Lot size copied!</span>
+            <Check size={16} className="text-yellow-400" />
+            <span className="text-sm font-bold">Value copied!</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -190,14 +190,14 @@ export default function ForexRiskCalculator() {
 function InputNumber({ label, value, onChange, placeholder, suffix }: any) {
   return (
     <div className="space-y-2">
-      <label className="text-sm font-bold text-slate-700 ml-1">{label}</label>
+      <label className="text-sm font-bold text-slate-200 ml-1">{label}</label>
       <div className="relative">
         <input 
           type="number" 
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="w-full bg-slate-100 border-none rounded-2xl py-4 px-6 text-slate-900 font-semibold focus:ring-2 focus:ring-emerald-500 transition-all outline-none"
+          className="w-full bg-slate-900 border border-slate-800 rounded-2xl py-4 px-6 text-white font-semibold focus:ring-2 focus:ring-yellow-400 transition-all outline-none"
         />
         {suffix && <span className="absolute right-6 top-1/2 -translate-y-1/2 font-bold text-slate-400">{suffix}</span>}
       </div>
@@ -208,12 +208,12 @@ function InputNumber({ label, value, onChange, placeholder, suffix }: any) {
 function InputSelect({ label, value, onChange, options }: any) {
   return (
     <div className="space-y-2">
-      <label className="text-sm font-bold text-slate-700 ml-1">{label}</label>
+      <label className="text-sm font-bold text-slate-200 ml-1">{label}</label>
       <div className="relative">
         <select 
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-slate-800 text-white border-none rounded-2xl py-4 px-6 font-bold appearance-none cursor-pointer outline-none focus:ring-2 focus:ring-emerald-500"
+          className="w-full bg-slate-900 text-white border border-slate-800 rounded-2xl py-4 px-6 font-bold appearance-none cursor-pointer outline-none focus:ring-2 focus:ring-yellow-400"
         >
           {options.map((opt: string) => <option key={opt} value={opt}>{opt}</option>)}
         </select>
@@ -225,14 +225,14 @@ function InputSelect({ label, value, onChange, options }: any) {
 
 function ResultRow({ label, value, isBold = false, canCopy = false, onCopy }: any) {
   return (
-    <div className="flex flex-col border-b border-slate-200 pb-3 group">
+    <div className="flex flex-col border-b border-slate-800 pb-3 group">
       <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{label}</span>
       <div className="flex justify-between items-center">
-        <span className={`text-2xl ${isBold ? 'font-black text-slate-900' : 'font-bold text-slate-700'}`}>
+        <span className={`text-2xl ${isBold ? 'font-black text-white' : 'font-bold text-slate-200'}`}>
           {value}
         </span>
         {canCopy && (
-          <button onClick={onCopy} className="text-slate-300 hover:text-emerald-500 transition-colors">
+          <button onClick={onCopy} className="text-slate-400 hover:text-yellow-400 transition-colors">
             <Copy size={18} />
           </button>
         )}

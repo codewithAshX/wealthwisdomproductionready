@@ -1,124 +1,145 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Quote, MessageSquare, ArrowRight } from "lucide-react";
+import { motion, useMotionValue, useTransform } from "framer-motion";
+import { Quote, Star, BadgeCheck } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Amit Verma",
-    role: "Full-Time Trader",
-    text: "Before joining, I was randomly taking trades and constantly losing. The structured approach completely changed my mindset. Now I trade with confidence and consistency.",
-    image: "/testimonials/t1.jpg",
+    name: "Riya Sharma",
+    role: "Homeowner",
+    text: "Venula delivered our home exactly as promised — on time, with exceptional craftsmanship.",
+    image: "https://images.unsplash.com/photo-1607746882042-944635dfe10e",
   },
   {
-    name: "Neha Kapoor",
-    role: "Working Professional",
-    text: "I never thought trading could be this systematic. The risk management framework alone saved me from huge losses.",
-    image: "/testimonials/t2.jpg",
+    name: "Aditya Singh",
+    role: "Business Owner",
+    text: "From design to execution, everything was handled seamlessly. Truly professional.",
+    image: "https://images.unsplash.com/photo-1595152772835-219674b2a8a6",
   },
   {
-    name: "Rahul Jain",
-    role: "Beginner → Profitable",
-    text: "This mentorship removed years of confusion in just months. The live market sessions are pure gold.",
-    image: "/testimonials/t3.jpg",
+    name: "Priya Patel",
+    role: "Investor",
+    text: "Clear communication and quality control made this a stress-free investment experience.",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956",
   },
   {
-    name: "Sneha Mehta",
-    role: "Options Trader",
-    text: "No hype. No shortcuts. Just real education. Easily the best decision of my trading journey.",
-    image: "/testimonials/t4.jpg",
+    name: "Sanjay Rao",
+    role: "Architect",
+    text: "Their attention to detail and structural discipline is unmatched in the industry.",
+    image: "https://images.unsplash.com/photo-1603415526960-f7e0328f7e74",
   },
 ];
 
+const loopItems = [...testimonials, ...testimonials];
+
+function Card({ t }: any) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const rotateX = useTransform(y, [-50, 50], [6, -6]);
+  const rotateY = useTransform(x, [-50, 50], [-6, 6]);
+
+  return (
+    <motion.div
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        x.set(e.clientX - rect.left - rect.width / 2);
+        y.set(e.clientY - rect.top - rect.height / 2);
+      }}
+      onMouseLeave={() => {
+        x.set(0);
+        y.set(0);
+      }}
+      style={{ rotateX, rotateY }}
+      className="min-w-[340px] max-w-[340px]"
+    >
+      {/* GLASS CARD */}
+      <div className="relative rounded-2xl p-[1px] bg-gradient-to-br from-yellow-400/40 via-white/10 to-transparent">
+
+        {/* SOFT GLOW (NOT BOX) */}
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 via-transparent to-transparent blur-2xl opacity-60" />
+
+        <div className="relative bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-2xl p-6 overflow-hidden">
+
+          {/* LIGHT SWEEP EFFECT */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition" />
+
+          <Quote className="text-yellow-400 mb-4" size={22} />
+
+          <p className="text-white/70 text-sm leading-relaxed mb-6">
+            “{t.text}”
+          </p>
+
+          {/* STARS */}
+          <div className="flex gap-1 mb-5">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} size={14} className="text-yellow-400 fill-yellow-400" />
+            ))}
+          </div>
+
+          {/* PROFILE */}
+          <div className="flex items-center gap-3">
+            <img
+              src={`${t.image}?auto=format&fit=crop&w=200&q=80`}
+              className="h-11 w-11 rounded-full object-cover border border-white/20"
+            />
+
+            <div>
+              <div className="flex items-center gap-1">
+                <p className="text-white text-sm font-medium">{t.name}</p>
+                <BadgeCheck size={14} className="text-yellow-400" />
+              </div>
+              <p className="text-white/40 text-xs">{t.role}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="py-28 md:py-36 bg-[#F7FCF9] text-slate-900 overflow-hidden">
+    <section className="py-32 bg-[#050507] text-white overflow-hidden relative">
+
+      {/* BACKGROUND GLOW (REMOVES BOX FEEL) */}
+      <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-yellow-500/10 blur-[140px]" />
+
       <div className="max-w-7xl mx-auto px-6">
 
         {/* HEADER */}
-        <div className="relative z-10 mb-20">
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-2 text-emerald-600 mb-4 font-bold tracking-[0.3em] text-[10px] uppercase"
-          >
-            <MessageSquare size={14} />
-            Real Stories
-          </motion.div>
-
-          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter leading-[0.9]">
-            Traders Who <br />
-            <span className="text-emerald-600">Found Their Edge.</span>
+        <div className="text-center mb-20">
+          <h2 className="text-4xl md:text-6xl font-light tracking-tight">
+            Client <span className="text-yellow-400">Experiences</span>
           </h2>
-
-          <p className="text-slate-500 mt-6 text-lg max-w-xl font-normal leading-relaxed tracking-tight">
-            Real transformations from disciplined traders who moved beyond 
-            guesswork to professional execution.
+          <p className="text-white/40 mt-4">
+            Real stories from people who trusted Venula
           </p>
         </div>
 
-        {/* GRID LAYOUT */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -8 }}
-              className="group relative bg-white border border-emerald-100 p-8 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-emerald-500/5 transition-all duration-500"
-            >
-              <div className="absolute top-6 right-8 text-emerald-100 group-hover:text-emerald-500 transition-colors">
-                <Quote size={40} fill="currentColor" />
-              </div>
+        {/* FLOATING SCROLL (NO BOX CONTAINER) */}
+        <div className="relative">
 
-              <p className="relative z-10 text-slate-600 leading-relaxed font-normal text-md mb-10 italic">
-                "{t.text}"
-              </p>
+          {/* EDGE FADE */}
+          <div className="absolute left-0 top-0 h-full w-40 bg-gradient-to-r from-[#050507] to-transparent z-10" />
+          <div className="absolute right-0 top-0 h-full w-40 bg-gradient-to-l from-[#050507] to-transparent z-10" />
 
-              <div className="flex items-center gap-4 border-t border-emerald-50 pt-6">
-                <div className="h-12 w-12 rounded-2xl overflow-hidden bg-emerald-50 border border-emerald-100">
-                  <img src={t.image} alt={t.name} className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
-                </div>
-                <div>
-                  <p className="font-bold text-slate-900 tracking-tight text-sm">{t.name}</p>
-                  <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">{t.role}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+          <motion.div
+            className="flex gap-10 w-max"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{
+              repeat: Infinity,
+              duration: 25,
+              ease: "linear",
+            }}
+            whileHover={{ animationPlayState: "paused" }}
+          >
+            {loopItems.map((t, i) => (
+              <Card key={i} t={t} />
+            ))}
+          </motion.div>
         </div>
-
-        {/* FOOTER CTA CARD */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          className="mt-20 relative overflow-hidden rounded-[3rem] bg-emerald-600 p-12 md:p-16 text-white shadow-2xl shadow-emerald-200"
-        >
-          {/* Abstract background shapes */}
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
-          
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
-            <div className="max-w-xl text-center md:text-left">
-              <h3 className="text-3xl md:text-5xl font-extrabold tracking-tighter leading-none mb-6">
-                Ready to Transform <br /> Your Trading?
-              </h3>
-              <p className="text-emerald-50 text-lg font-light tracking-tight opacity-80">
-                Join a community of 500+ traders mastering the markets through wisdom and discipline.
-              </p>
-            </div>
-
-            <motion.a
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              href="https://wa.me/91XXXXXXXX"
-              className="inline-flex items-center gap-3 rounded-full bg-white px-10 py-5 text-emerald-600 font-black text-sm uppercase tracking-widest shadow-xl transition-all"
-            >
-              Join The Community <ArrowRight size={18} />
-            </motion.a>
-          </div>
-        </motion.div>
-
       </div>
     </section>
   );

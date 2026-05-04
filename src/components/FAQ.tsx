@@ -2,28 +2,38 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, HelpCircle, Minus } from "lucide-react";
+import {
+  ArrowUpRight,
+  ShieldCheck,
+  Database,
+  HardHat,
+  FileText,
+} from "lucide-react";
 
 const faqs = [
   {
-    id: "PROT-01",
-    question: "Do I need prior experience to join?",
-    answer: "No. Our curriculum is designed to strip away retail bias. We provide a tiered evolutionary path: Foundation, Professional, and Mastery protocols.",
+    id: "01",
+    question: "How do you ensure project timelines?",
+    answer:
+      "We follow milestone-based execution with strict weekly audits and dedicated project management systems to ensure every phase is delivered on schedule.",
   },
   {
-    id: "PROT-02",
-    question: "The Wealth Wisdom differentiation?",
-    answer: "We bypass lagging indicators. Our methodology focuses on Institutional Order Flow and mechanical edge—learning the 'Why' behind every market expansion.",
+    id: "02",
+    question: "What about construction quality?",
+    answer:
+      "Each project undergoes multi-stage quality inspections, ensuring superior materials, structural integrity, and premium finishing standards.",
   },
   {
-    id: "PROT-03",
-    question: "Post-Syllabus support infrastructure?",
-    answer: "Education is permanent. Graduates receive floor access to our private Discord for real-time market bias, weekly analysis, and monthly briefings.",
+    id: "03",
+    question: "Do you handle legal approvals?",
+    answer:
+      "Yes, we manage all legal processes including RERA compliance, zoning approvals, and documentation to ensure complete transparency.",
   },
   {
-    id: "PROT-04",
-    question: "Targeted market segments?",
-    answer: "Price action is universal. Our mechanical frameworks are applied with high precision across Equity, F&O, Commodities, and global Forex markets.",
+    id: "04",
+    question: "How is budget managed?",
+    answer:
+      "We maintain complete cost transparency with structured planning, ensuring there are no hidden charges or financial surprises.",
   },
 ];
 
@@ -31,115 +41,91 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section id="faq" className="bg-[#F7FCF9] py-24 lg:py-40 relative overflow-hidden border-t border-emerald-100/50">
-      
-      {/* Structural Background Detail */}
-      <div className="absolute top-0 right-0 p-20 opacity-[0.03] pointer-events-none hidden lg:block">
-        <h1 className="text-[12rem] font-black leading-none tracking-tighter">F.A.Q</h1>
-      </div>
+    <section className="bg-[#050507] py-28 lg:py-40 relative overflow-hidden">
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
-        {/* HEADER: Editorial Style */}
-        <div className="grid lg:grid-cols-12 gap-12 mb-32 items-end">
-          <div className="lg:col-span-8">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-3 mb-8"
-            >
-              <Minus className="text-emerald-500" />
-              <span className="text-emerald-600 font-mono text-[10px] tracking-[0.4em] uppercase font-bold">Inquiry Terminal</span>
-            </motion.div>
-            
-            <h2 className="text-6xl md:text-8xl font-light tracking-tighter text-slate-900 leading-[0.85]">
-              Common <br />
-              <span className="italic font-serif text-emerald-600/70">Curiosities.</span>
-            </h2>
-          </div>
-          <div className="lg:col-span-4 border-l border-emerald-100 pl-8 pb-4">
-            <p className="text-slate-400 text-[10px] uppercase tracking-[0.2em] leading-relaxed max-w-[240px]">
-              Clarity on institutional protocols and your evolutionary path.
-            </p>
-          </div>
+      {/* GOLD GLOW */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-amber-500/10 blur-[120px]" />
+
+      <div className="max-w-6xl mx-auto px-6">
+
+        {/* HEADER */}
+        <div className="mb-24 text-center">
+          <p className="text-xs tracking-[0.3em] text-amber-400 uppercase mb-6">
+            FAQ
+          </p>
+
+          <h2 className="text-4xl md:text-6xl font-light text-white leading-tight">
+            Frequently Asked <br />
+            <span className="text-amber-400">Questions</span>
+          </h2>
         </div>
 
-        {/* ACCORDION: Blueprint Layout */}
-        <div className="max-w-5xl ml-auto">
+        {/* ACCORDION */}
+        <div className="space-y-6">
           {faqs.map((faq, i) => (
-            <div key={i} className={`border-t ${i === faqs.length - 1 ? 'border-b' : ''} border-emerald-100/50 group`}>
+            <motion.div
+              key={i}
+              whileHover={{ y: -4 }}
+              className="border border-white/10 rounded-2xl overflow-hidden bg-white/[0.03] backdrop-blur-xl"
+            >
               <button
                 onClick={() => setOpenIndex(openIndex === i ? -1 : i)}
-                className="w-full py-12 flex items-start justify-between text-left transition-all duration-500"
+                className="w-full flex items-center justify-between px-6 py-6 text-left group"
               >
-                <div className="flex gap-12 md:gap-24">
-                  <span className={`font-mono text-[10px] pt-2 transition-colors duration-500 ${
-                    openIndex === i ? "text-emerald-500" : "text-slate-300"
-                  }`}>
+                <div className="flex items-center gap-4">
+                  <span className="text-amber-400 text-xs tracking-widest">
                     {faq.id}
                   </span>
-                  <h3 className={`text-2xl md:text-4xl font-bold tracking-tight transition-all duration-500 ${
-                    openIndex === i ? "text-slate-900 translate-x-4" : "text-slate-400 group-hover:text-slate-600"
-                  }`}>
+
+                  <h3 className="text-lg md:text-xl text-white group-hover:text-amber-400 transition">
                     {faq.question}
                   </h3>
                 </div>
-                
-                <div className={`mt-2 transition-all duration-700 ${
-                  openIndex === i ? "rotate-45 text-emerald-500" : "text-slate-200 group-hover:text-emerald-300"
-                }`}>
-                  <ArrowUpRight size={32} strokeWidth={1} />
-                </div>
+
+                <ArrowUpRight
+                  className={`transition-transform ${
+                    openIndex === i
+                      ? "rotate-45 text-amber-400"
+                      : "text-white/40"
+                  }`}
+                />
               </button>
 
               <AnimatePresence>
                 {openIndex === i && (
                   <motion.div
-                    initial={{ height: 0, opacity: 0, filter: "blur(10px)" }}
-                    animate={{ height: "auto", opacity: 1, filter: "blur(0px)" }}
-                    exit={{ height: 0, opacity: 0, filter: "blur(10px)" }}
-                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    className="overflow-hidden"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="px-6 pb-6"
                   >
-                    <div className="pb-16 pl-16 md:pl-[11.5rem] max-w-3xl relative">
-                      {/* Vertical line accent for the answer */}
-                      <div className="absolute left-12 md:left-[10rem] top-0 bottom-16 w-px bg-emerald-100" />
-                      
-                      <p className="text-slate-500 text-lg md:text-xl leading-relaxed font-light italic font-serif">
-                        "{faq.answer}"
-                      </p>
-                      
-                      <div className="mt-8 flex gap-2">
-                        <div className="h-1 w-6 bg-emerald-500 rounded-full" />
-                        <div className="h-1 w-1 bg-emerald-200 rounded-full" />
-                        <div className="h-1 w-1 bg-emerald-100 rounded-full" />
-                      </div>
-                    </div>
+                    <p className="text-white/60 text-sm leading-relaxed max-w-xl">
+                      {faq.answer}
+                    </p>
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        {/* MINT CALL-TO-ACTION */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="mt-32 p-10 bg-white border border-emerald-100 rounded-[3rem] flex flex-col md:flex-row items-center justify-between gap-8"
+        {/* CTA */}
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          className="mt-24 p-10 rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl flex flex-col md:flex-row items-center justify-between gap-6"
         >
-          <div className="flex items-center gap-6">
-            <div className="h-14 w-14 bg-[#F7FCF9] rounded-2xl flex items-center justify-center text-emerald-600">
-               <HelpCircle size={24} />
-            </div>
-            <div>
-              <h4 className="text-xl font-bold text-slate-900 tracking-tight">Seeking Further Clarity?</h4>
-              <p className="text-slate-400 text-[10px] font-mono uppercase tracking-[0.2em] mt-1">Institutional Support Desk</p>
-            </div>
+          <div>
+            <h4 className="text-2xl text-white font-medium">
+              Still have questions?
+            </h4>
+            <p className="text-white/50 text-sm mt-2">
+              Our team will guide you through every step.
+            </p>
           </div>
-          
-          <button className="px-10 py-5 bg-slate-900 text-white font-black uppercase text-[10px] tracking-[0.3em] rounded-2xl hover:bg-emerald-600 transition-all flex items-center gap-4 group">
-            Consult a Mentor <ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform" />
+
+          <button className="px-6 py-3 bg-amber-500 text-black rounded-full text-sm font-semibold hover:bg-amber-400 transition">
+            Contact Us
           </button>
         </motion.div>
       </div>

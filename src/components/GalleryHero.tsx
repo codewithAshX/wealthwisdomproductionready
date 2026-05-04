@@ -35,7 +35,7 @@ const CinematicSection = ({
   const textOpacity = useTransform(scrollYProgress, [0.2, 0.4], [0, 1]);
 
   return (
-    <section className="py-40 bg-white">
+    <section className="py-40 bg-black">
       <div className="max-w-7xl mx-auto px-6">
         <div
           ref={ref}
@@ -47,19 +47,19 @@ const CinematicSection = ({
             className="lg:col-span-5 space-y-10"
           >
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-emerald-50 rounded-lg text-emerald-600">
+              <div className="p-2 bg-yellow-400/20 rounded-lg text-yellow-400">
                 <Icon size={18} />
               </div>
-              <span className="text-emerald-600 font-mono text-[10px] tracking-[0.4em] uppercase font-bold">
+              <span className="text-yellow-400 font-mono text-[10px] tracking-[0.4em] uppercase font-bold">
                 {subtitle} // 2026
               </span>
             </div>
 
-            <h2 className="text-5xl md:text-6xl font-extralight tracking-[-0.03em] leading-[1] text-slate-900">
+            <h2 className="text-5xl md:text-6xl font-extralight tracking-[-0.03em] leading-[1] text-white">
               {title}
             </h2>
 
-            <p className="text-slate-500 text-lg leading-relaxed border-l border-emerald-500/20 pl-6">
+            <p className="text-slate-300 text-lg leading-relaxed border-l border-yellow-400/20 pl-6">
               {description}
             </p>
           </motion.div>
@@ -68,7 +68,7 @@ const CinematicSection = ({
           <div className="lg:col-span-7 relative">
             <motion.div
               style={{ scale, y }}
-              className="relative rounded-[2.5rem] overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.12)] border border-slate-200"
+              className="relative rounded-[2.5rem] overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.35)] border border-slate-800"
             >
               {item.type === "image" ? (
                 <img
@@ -102,7 +102,7 @@ export default function AppleGallery({ media = [] }: { media: MediaItem[] }) {
   const infrastructure = media.find((m) => m.category === "infrastructure");
 
   return (
-    <div className="bg-white">
+    <div className="bg-black">
       
       {/* HERO — MATCHES HOMEPAGE SCALE */}
       <section className="py-40">
@@ -111,10 +111,10 @@ export default function AppleGallery({ media = [] }: { media: MediaItem[] }) {
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            className="text-7xl md:text-9xl font-light tracking-tighter leading-[0.85] text-slate-900"
+            className="text-7xl md:text-9xl font-light tracking-tighter leading-[0.85] text-white"
           >
             The Visual <br />
-            <span className="italic font-serif text-slate-300">
+            <span className="italic font-serif text-yellow-400">
               Portfolio.
             </span>
           </motion.h1>
