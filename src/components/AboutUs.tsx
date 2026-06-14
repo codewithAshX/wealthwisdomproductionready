@@ -93,7 +93,7 @@ export default function AboutSection() {
           className="text-white/80 text-[15px] leading-relaxed backdrop-blur-sm bg-white/[0.03] p-6 rounded-2xl border border-white/10"
         >
           <p className="mb-4">
-            At RR Golden Properties, we believe that owning your dream home should be a seamless and transparent experience.
+            At venula Devleopers, Properties we believe that owning your dream home should be a seamless and transparent experience.
             Established with a vision to redefine real estate standards, we specialize in residential layouts,
             villa plots, and premium developments.
           </p>
